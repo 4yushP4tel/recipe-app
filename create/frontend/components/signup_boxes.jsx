@@ -1,6 +1,8 @@
-export function Signup_Box(){
+import {React, useState} from 'react'
+
+export function Signin_Box(){
     return (
-        <div className="signupcontainer">
+        <div className="signincontainer">
             
             <h2>Sign Up</h2>
             <form>
@@ -17,7 +19,7 @@ export function Signup_Box(){
                     required
                     />
                 </div>
-                <button>Sign Up</button>
+                <button>Sign In</button>
             </form>
         </div>
     );
@@ -58,7 +60,7 @@ export function Create_Account(){
 export function Signup_Google_Box(){
     return(
         <div className="Google_container">
-
+            <button>Sign in with Google</button>
         </div>
     );
 }
