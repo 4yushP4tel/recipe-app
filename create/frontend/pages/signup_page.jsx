@@ -1,5 +1,7 @@
-import {Signin_Box, Create_Account,Signup_Google_Box} from 
+import {Signin_Box, Create_Account,Signup_Google_Box,} from 
 '../components/signup_boxes';
+
+import {Header} from '../components/homepages_comps'
 import {React, useState} from 'react'
 
 export function Signup(){
