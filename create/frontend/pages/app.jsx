@@ -5,10 +5,11 @@ import { Signup } from './signup_page';
 import { ChefAI } from './chefai';
 import { Pantry } from './pantry';
 import { Recipes } from './recipes';
+import '../style/main.css'
 
 
 export function App(){
-    const [status, setStatus] = useState(true);
+    const [status, setStatus] = useState(false);
     const [page, setPage] = useState(status ? 'homesignedin' : 'homesignedout');
 
 

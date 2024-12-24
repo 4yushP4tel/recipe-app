@@ -1,0 +1,318 @@
+/* General Reset */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Fixed Banner/Header (at the top of the page) */
+.header-container {
+    position: fixed; /* Fixed at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+    z-index: 10; /* Ensure it's on top */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.header-container img {
+    width: 50px; /* Adjust image size */
+    height: auto;
+    margin-right: 15px;
+}
+
+.header-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: inherit;
+}
+
+/* Signed Out Page Section */
+.signedout_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding-top: 120px;
+    padding: 20px;
+    background-image: url('../images/food.gif');
+    background-position: center;
+    background-size:cover;
+}
+
+.signedout_container button {
+    border-radius: 5px;
+    padding: 20px 30px; /* Adjusted padding for better sizing */
+    font-size: 16px; /* Slightly increased font size */
+    font-weight: bold; /* Made the text bold */
+    font-style: italic;
+    border: 2px solid #ccc; /* Adding a border for definition */
+    background-color: #f0f0f0; /* Light background color */
+    color: #333; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+}
+
+/* Hover effect */
+.signedout_container button:hover {
+    transform: scale(1.1); /* Subtle enlargement on hover */
+    background-color: #e0e0e0; /* Darken the background on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+}
+
+/* Active (click) effect */
+.signedout_container button:active {
+    transform: scale(0.98); /* Slight shrink when clicked */
+    background-color: #d0d0d0; /* Darker background when pressed */
+}
+
+/* Focus effect */
+.signedout_container button:focus {
+    outline: none; /* Remove the default outline */
+    box-shadow: 0 0 5px rgba(0, 120, 255, 0.5); /* Blue glow on focus */
+}
+
+/* Bottom content: text and button */
+.bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+
+}
+
+/* Left text styling (h2 and p) */
+.text-left {
+    max-width: 60%;
+}
+
+.text-left h2 {
+    font-size: 2rem;
+    color: inherit;
+}
+
+.text-left p {
+    font-size: 1.2rem;
+    color: inherit;
+    margin-top: 10px;
+}
+
+/* General Button Styling (e.g., "Get Started Today" button) */
+.signedout_container, .signup_container {
+    padding-top: 120px; /* Adjust to give space for the fixed header */
+}
+
+.signup_page {
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    min-height: 100vh; /* Full viewport height */
+    text-align: center; /* Center-align text inside */
+    padding: 20px; /* Add padding for spacing */
+    box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+}
+
+/* Sign Up Form Container */
+.signup_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 120px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Form Elements Styling */
+.inputfield {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.inputfield label {
+
+    margin-top: 10px;
+    font-size: 1rem; /* Adjust font size */
+    text-align: left; /* Align label text to the right */
+    width: 150px; /* Fixed width for labels for consistent alignment */
+}
+
+
+.inputfield input {
+    width: 100%; /* Subtract space for button */
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputfield input:focus {
+    border-color: inherit;
+    box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+}
+
+.visibility {
+    position: relative;
+    display: inline-block;
+}
+
+/* Visibility button */
+.visibility button {
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    font-size: 1.5rem; /* Adjust icon size */
+    color: inherit; /* Use the text color from parent */
+    cursor: pointer; /* Show pointer cursor on hover */
+    position: absolute;
+    margin-top: 5px;
+    right: 10px; /* Adjust position */
+    transition: transform 0.2s ease, font-size 0.2s ease; /* Smooth scaling on hover */
+}
+
+.visibility button:hover {
+    transform: scale(1.2); /* Scale button on hover */
+}
+
+/* Continue Button */
+.continue {
+    font-size: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.continue button{
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.continue button:hover {
+    transform: scale(1.05);
+}
+
+.continue button:focus{
+    outline: none;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Google Sign-In */
+.Google_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
+}
+.Google_container button{
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.Google_container button:hover {
+    transform: scale(1.05);
+}
+
+.Google_container button:focus {
+    outline: none;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Method Buttons (Sign In / Create Account) */
+.method-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.method-buttons button {
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
+    width: 48%; /* Each button takes up 48% of the space */
+}
+
+.method-buttons button:hover {
+    transform: scale(1.05);
+}
+
+.method-buttons button:focus {
+    outline: none;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bottom-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-left {
+        max-width: 100%;
+        text-align: center;
+    }
+    .signup_container {
+        width: 90%;
+    }
+
+    .method-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .method-buttons button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+
+}
