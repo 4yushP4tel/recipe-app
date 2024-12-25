@@ -44,3 +44,6 @@ export function App(){
     );
 
 }
+
+
+// add a banner of different food items that keeps rotating

@@ -1,9 +1,9 @@
 /* General Reset */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Recoleta';
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #f7f4e3;
 }
 
 /* Fixed Banner/Header (at the top of the page) */
@@ -13,13 +13,13 @@ body {
     left: 0;
     width: 100%;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+    box-shadow: 0 2px 5px rgb(37, 58, 74,0.1); /* Subtle shadow for separation */
     z-index: 10; /* Ensure it's on top */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px 10px 0 0;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(229, 234, 174, 0.1);
     backdrop-filter: blur(5px);
 }
 
@@ -44,9 +44,9 @@ body {
     height: 100vh;
     padding-top: 120px;
     padding: 20px;
-    background-image: url('../images/food.gif');
+    /* background-image: url('../images/food.gif');
     background-position: center;
-    background-size:cover;
+    background-size:cover; */
 }
 
 .signedout_container button {
@@ -56,8 +56,8 @@ body {
     font-weight: bold; /* Made the text bold */
     font-style: italic;
     border: 2px solid #ccc; /* Adding a border for definition */
-    background-color: #f0f0f0; /* Light background color */
-    color: #333; /* Text color */
+    background-color: #202334;
+    color: #f7f4e3; /* Text color */
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
 }
@@ -66,6 +66,7 @@ body {
 .signedout_container button:hover {
     transform: scale(1.1); /* Subtle enlargement on hover */
     background-color: #e0e0e0; /* Darken the background on hover */
+    color: rgb(37, 58, 74, 0.8) ;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
 }
 
@@ -133,7 +134,7 @@ body {
     width: 100%;
     max-width: 400px;
     margin-top: 120px;
-    background-color: #fff;
+    background-color: #cdc6b6;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -204,6 +205,7 @@ body {
     display: flex;
     justify-content: center;
     text-align: center;
+    
 }
 
 .continue button{
@@ -216,6 +218,8 @@ body {
     width: 50%;
     display: flex;
     justify-content: center;
+    background-color: #202334;
+    color: white;
 }
 
 .continue button:hover {
@@ -245,6 +249,8 @@ body {
     width: 50%;
     display: flex;
     justify-content: center;
+    background-color: #202334;
+    color: white;
 }
 
 .Google_container button:hover {
@@ -272,7 +278,9 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease-in-out;
-    width: 48%; /* Each button takes up 48% of the space */
+    width: 48%;
+    background-color: #202334;
+    color: white;
 }
 
 .method-buttons button:hover {
@@ -314,5 +322,39 @@ body {
         margin-top: 10px;
     }
 
+
+}
+
+.imagewheel{
+    width: 400px;
+    height: auto;
+    margin-top: 120px;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    padding: 10px; 
+    transition: all 0.3s ease;
+    background-color: #f7f4e3;
+}
+
+.swiper-button-prev:hover, .swiper-button-next:hover{
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+.slider-controler {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 
 }
