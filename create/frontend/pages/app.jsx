@@ -10,7 +10,7 @@ import '../style/main.css'
 
 
 export function App(){
-    const [status, setStatus] = useState(true);
+    const [status, setStatus] = useState(false);
     const [page, setPage] = useState(status ? 'homesignedin' : 'homesignedout');
 
 
