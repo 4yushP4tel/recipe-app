@@ -1,20 +1,26 @@
-/* General Reset */
 body {
-    font-family: 'Recoleta';
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f7f4e3;
 }
 
-/* Fixed Banner/Header (at the top of the page) */
+.app{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .header-container {
-    position: fixed; /* Fixed at the top */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     padding: 20px;
-    box-shadow: 0 2px 5px rgb(37, 58, 74,0.1); /* Subtle shadow for separation */
-    z-index: 10; /* Ensure it's on top */
+    box-shadow: 0 2px 5px rgb(37, 58, 74,0.1);
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,8 +29,8 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.header-container img {
-    width: 50px; /* Adjust image size */
+.header-container img, .navbar img{
+    width: 50px;
     height: auto;
     margin-right: 15px;
 }
@@ -35,7 +41,6 @@ body {
     color: inherit;
 }
 
-/* Signed Out Page Section */
 .signedout_container {
     display: flex;
     flex-direction: column;
@@ -44,45 +49,38 @@ body {
     height: 100vh;
     padding-top: 120px;
     padding: 20px;
-    /* background-image: url('../images/food.gif');
-    background-position: center;
-    background-size:cover; */
 }
 
 .signedout_container button {
     border-radius: 5px;
-    padding: 20px 30px; /* Adjusted padding for better sizing */
-    font-size: 16px; /* Slightly increased font size */
-    font-weight: bold; /* Made the text bold */
+    padding: 20px 30px;
+    font-size: 16px;
+    font-weight: bold;
     font-style: italic;
-    border: 2px solid #ccc; /* Adding a border for definition */
+    border: 2px solid #ccc;
     background-color: #202334;
-    color: #f7f4e3; /* Text color */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+    color: #f7f4e3;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover effect */
 .signedout_container button:hover {
-    transform: scale(1.1); /* Subtle enlargement on hover */
-    background-color: #e0e0e0; /* Darken the background on hover */
-    color: rgb(37, 58, 74, 0.8) ;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+    transform: scale(1.1);
+    background-color: #e0e0e0;
+    color: rgb(37, 58, 74, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Active (click) effect */
 .signedout_container button:active {
-    transform: scale(0.98); /* Slight shrink when clicked */
-    background-color: #d0d0d0; /* Darker background when pressed */
+    transform: scale(0.98);
+    background-color: #d0d0d0;
 }
 
-/* Focus effect */
 .signedout_container button:focus {
-    outline: none; /* Remove the default outline */
-    box-shadow: 0 0 5px rgba(0, 120, 255, 0.5); /* Blue glow on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 120, 255, 0.5);
 }
 
-/* Bottom content: text and button */
 .bottom-content {
     display: flex;
     justify-content: space-between;
@@ -90,10 +88,8 @@ body {
     width: 100%;
     max-width: 900px;
     margin-top: 20px;
-
 }
 
-/* Left text styling (h2 and p) */
 .text-left {
     max-width: 60%;
 }
@@ -109,23 +105,21 @@ body {
     margin-top: 10px;
 }
 
-/* General Button Styling (e.g., "Get Started Today" button) */
 .signedout_container, .signup_container {
-    padding-top: 120px; /* Adjust to give space for the fixed header */
+    padding-top: 120px;
 }
 
 .signup_page {
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Arrange items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    min-height: 100vh; /* Full viewport height */
-    text-align: center; /* Center-align text inside */
-    padding: 20px; /* Add padding for spacing */
-    box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Sign Up Form Container */
 .signup_container {
     display: flex;
     flex-direction: column;
@@ -140,9 +134,6 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-
-/* Form Elements Styling */
 .inputfield {
     display: flex;
     flex-direction: row;
@@ -153,16 +144,14 @@ body {
 }
 
 .inputfield label {
-
     margin-top: 10px;
-    font-size: 1rem; /* Adjust font size */
-    text-align: left; /* Align label text to the right */
-    width: 150px; /* Fixed width for labels for consistent alignment */
+    font-size: 1rem;
+    text-align: left;
+    width: 150px;
 }
 
-
 .inputfield input {
-    width: 100%; /* Subtract space for button */
+    width: 100%;
     padding: 12px;
     font-size: 1rem;
     border-radius: 5px;
@@ -181,31 +170,28 @@ body {
     display: inline-block;
 }
 
-/* Visibility button */
 .visibility button {
-    background: none; /* Remove background */
-    border: none; /* Remove border */
-    font-size: 1.5rem; /* Adjust icon size */
-    color: inherit; /* Use the text color from parent */
-    cursor: pointer; /* Show pointer cursor on hover */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: inherit;
+    cursor: pointer;
     position: absolute;
     margin-top: 5px;
-    right: 10px; /* Adjust position */
-    transition: transform 0.2s ease, font-size 0.2s ease; /* Smooth scaling on hover */
+    right: 10px;
+    transition: transform 0.2s ease, font-size 0.2s ease;
 }
 
 .visibility button:hover {
-    transform: scale(1.2); /* Scale button on hover */
+    transform: scale(1.2);
 }
 
-/* Continue Button */
 .continue {
     font-size: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
     text-align: center;
-    
 }
 
 .continue button{
@@ -231,14 +217,13 @@ body {
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Google Sign-In */
 .Google_container {
     width: 100%;
     display: flex;
     justify-content: center;
     text-align: center;
-
 }
+
 .Google_container button{
     border: 1px solid #ddd;
     padding: 10px 20px;
@@ -262,8 +247,6 @@ body {
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Method Buttons (Sign In / Create Account) */
 .method-buttons {
     display: flex;
     justify-content: space-between;
@@ -292,7 +275,119 @@ body {
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Mobile Responsiveness */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    background-color: rgb(229, 234, 174, 0.1);
+    width: 100%;
+    padding: 20px 20px;
+    box-shadow: 0 2px 5px rgb(37, 58, 74,0.1);
+    z-index: 10;
+    border-radius: 10px 10px 0 0;
+    background-color: rgb(229, 234, 174, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.left_nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    padding-right: 50px;
+}
+
+.nav-links button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+}
+
+.nav-links button:hover {
+    transform: scale(1.2);
+}
+
+.chosen_page{
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.signedin_container{
+    padding-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+}
+
+.signedin_container button{
+    border-radius: 5px;
+    padding: 20px 30px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+    border: 2px solid #ccc;
+    background-color: #202334;
+    color: #f7f4e3;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signedin_container button:hover {
+    transform: scale(1.1);
+    background-color: #e0e0e0;
+    color: rgb(37, 58, 74, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.signedin_container button:active {
+    transform: scale(0.98);
+    background-color: #d0d0d0;
+}
+
+.signedin_container button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 120, 255, 0.5);
+}
+
+.image_slideshow{
+    width: 600px;
+    height: 400px;
+    overflow: hidden;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image_slideshow img{
+    width: 400px;
+    height: auto;
+    margin-top: 120px;
+    object-fit: cover;
+}
+
+
+
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
@@ -321,14 +416,16 @@ body {
         width: 100%;
         margin-top: 10px;
     }
-
-
 }
 
 .imagewheel{
     width: 400px;
-    height: auto;
+    height: 600px;
     margin-top: 120px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    mask-image: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%);
 }
 
 .swiper-button-prev, .swiper-button-next {
@@ -337,7 +434,7 @@ body {
     justify-content: center;
     border: 1px solid transparent;
     border-radius: 50%;
-    padding: 10px; 
+    padding: 10px;
     transition: all 0.3s ease;
     background-color: #f7f4e3;
 }
@@ -356,5 +453,4 @@ body {
     display: flex;
     flex-direction: row;
     gap: 20px;
-
 }

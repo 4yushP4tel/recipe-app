@@ -5,11 +5,12 @@ import { Signup } from './signup_page';
 import { ChefAI } from './chefai';
 import { Pantry } from './pantry';
 import { Recipes } from './recipes';
+import { Slideshow } from '../components/slideshow';
 import '../style/main.css'
 
 
 export function App(){
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState(true);
     const [page, setPage] = useState(status ? 'homesignedin' : 'homesignedout');
 
 
@@ -36,11 +37,11 @@ export function App(){
     };
 
     return(
-        <>
+        <div>
         {status && <Header goToPage={setPage}/>}
-        <div>{choosePage()}</div>
+        <div className='chosen_page'>{choosePage()}</div>
         
-        </>
+        </div>
     );
 
 }
