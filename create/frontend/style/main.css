@@ -5,14 +5,6 @@ body {
     background-color: #f7f4e3;
 }
 
-.app{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
 .header-container {
     position: fixed;
     top: 0;
