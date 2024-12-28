@@ -1,56 +1,76 @@
 import {React, useState} from 'react'
 
 export function Signin_Box(){
+    const [visible, setVisible] = useState(false)
     return (
         <div className="signincontainer">
             
-            <h2>Sign Up</h2>
+            <h2>Sign In</h2>
             <form>
-                <div>
-                    <label htmlFor="">Email</label>
+                <div className='inputfield'>
+                    <label className='signuplabels'>Email</label>
                     <input type="text" 
                     required
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="">Password</label>
-                    <input type="text" 
+                <div className='inputfield'>
+                    <label className='signuplabels'>Password</label>
+                    <input type={visible ? "text": "password"}
                     required
                     />
+                    <div className='visibility'>
+                        <button onClick={(event)=> {event.preventDefault();setVisible(!visible)}}>
+                        {visible ? "🙉": "🙈"}
+                        </button>
+
+                    </div>
+
                 </div>
-                <button>Sign In</button>
+                <div className='continue'>
+                    <button>Continue</button>
+                </div>
             </form>
         </div>
     );
 }
 
 export function Create_Account(){
+    const [visible, setVisible] = useState(false)
     return(
         <div className="create_acc_container">
             <h2>Create an Account</h2>
             <form>
-                <div>
-                    <label htmlFor="">Email</label>
+                <div className='inputfield'>
+                    <label className='signuplabels'>Email</label>
                     <input type="text" 
                     required
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="">Password</label>
-                    <input type="text" 
+                <div className='inputfield'>
+                    <label className='signuplabels'>Password</label>
+                    <input type={visible ? "text": "password"}
                     required
                     />
+                    <div className='visibility'>
+                        <button onClick={(event)=> {event.preventDefault();setVisible(!visible)}}>
+                        {visible ? "🙉": "🙈"}
+                        </button>
+
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="">Confirm Password</label>
-                    <input type="text" 
+                <div className='inputfield'>
+                    <label className='signuplabels'>Confirm Password</label>
+                    <input type="password" 
                     required
                     />
                 </div>
-                <button>Create Account</button>
+                <div className='continue'>
+                    <button>Continue</button>
+                </div>
+
             </form>
 
         </div>
@@ -60,7 +80,7 @@ export function Create_Account(){
 export function Signup_Google_Box(){
     return(
         <div className="Google_container">
-            <button>Sign in with Google</button>
+            <button className='method-buttons'>Sign in with Google</button>
         </div>
     );
 }
