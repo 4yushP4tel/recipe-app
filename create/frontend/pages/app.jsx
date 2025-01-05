@@ -1,18 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Header } from '../components/header';
 import { HomepageSignedIn, HomepageSignedOut } from './homepage';
 import { Signup } from './signup_page';
 import { ChefAI } from './chefai';
 import { Pantry } from './pantry';
 import { Recipes } from './recipes';
-import { Slideshow } from '../components/slideshow';
 import '../style/main.css'
+import axios from 'axios'
 
 
 export function App(){
-    const [status, setStatus] = useState(false);
-    const [page, setPage] = useState(status ? 'homesignedin' : 'homesignedout');
+    const [status, setStatus] = useState(true);
+    const [page, setPage] = useState(status ? 'homesignedin':'homesignedout');
 
+    useEffect(() => {
+        const checkAuthStatus = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:5000/check_auth');
+                if (response.data.auth_status) {
+                    setStatus(true);
+                    setPage('homesignedin');
+                    console.log("signedin")
+                } else {
+                    setStatus(false);
+                    setPage('homesignedout');
+                    console.log('signedout')
+                }
+            } catch (error) {
+                console.error('Error checking authentication status:', error);
+                setStatus(false);
+                setPage('homesignedout');
+                console.log('error in status recognition')
+            }
+        };
+
+        checkAuthStatus();
+    }, []);
 
 
     const choosePage = () => {
@@ -45,6 +68,3 @@ export function App(){
     );
 
 }
-
-
-// add a banner of different food items that keeps rotating
