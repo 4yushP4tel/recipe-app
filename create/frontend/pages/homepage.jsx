@@ -2,7 +2,6 @@ import React, {useState } from 'react';
 import food_image from '../images/food.png'
 import { Wheel } from '../components/image_wheel';
 import { Slideshow } from '../components/slideshow';
-import food_gif from '../images/food.gif'
 
 export function HomepageSignedOut({goToPage}){
     return(
