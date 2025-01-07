@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from '../components/header';
 import { HomepageSignedIn, HomepageSignedOut } from './homepage';
 import { Signup } from './signup_page';
@@ -10,61 +11,50 @@ import axios from 'axios'
 
 
 export function App(){
-    const [status, setStatus] = useState(true);
-    const [page, setPage] = useState(status ? 'homesignedin':'homesignedout');
+    const [status, setStatus] = useState(null);
 
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/check_auth');
+                const response = await axios.get('http://127.0.0.1:5000/check_auth', {withCredentials: true});
                 if (response.data.auth_status) {
                     setStatus(true);
-                    setPage('homesignedin');
                     console.log("signedin")
                 } else {
                     setStatus(false);
-                    setPage('homesignedout');
                     console.log('signedout')
                 }
             } catch (error) {
                 console.error('Error checking authentication status:', error);
                 setStatus(false);
-                setPage('homesignedout');
-                console.log('error in status recognition')
             }
         };
 
         checkAuthStatus();
     }, []);
 
+    if(status === null){
+        return(<div>Loading...</div>);
+    }
 
-    const choosePage = () => {
-        switch (page) {
-            case 'homesignedout':
-                return <HomepageSignedOut goToPage = {setPage}/>;
-            case 'signup':
-                return <Signup goToPage = {setPage}/>;
-            case 'homesignedin':
-                return <HomepageSignedIn goToPage = {setPage}/>;
-            case 'pantry':
-                return <Pantry goToPage = {setPage}/>;
-            case 'chefai':
-                return <ChefAI goToPage = {setPage}/>;
-            case 'recipes':
-                return <Recipes goToPage = {setPage}/>;
-            default:
-                return <HomepageSignedOut goToPage = {setPage}/>;
-
-                
-        }
-    };
 
     return(
-        <div>
-        {status && <Header goToPage={setPage}/>}
-        <div className='chosen_page'>{choosePage()}</div>
+        <Router>
+            {status && <Header />} 
         
+        <div className='chosen_page'>
+            <Routes> 
+                <Route path="/" element={status ? <HomepageSignedIn/> :<HomepageSignedOut />} />
+                <Route path="/homesignedin" element = {status ? <HomepageSignedIn/>: <Navigate to="/"/>}/>
+                <Route path="/signup" element={status? <Navigate to="/homesignedin"/>: <Signup/>} />
+                <Route path="/pantry" element = {status ? <Pantry/>: <Navigate to="/"/>}/>
+                <Route path="/chefai" element = {status ? <ChefAI/>: <Navigate to="/"/>}/>
+                <Route path="/recipes" element = {status ? <Recipes/>: <Navigate to="/"/>}/>
+                </Routes>
+
         </div>
+
+        </Router>
     );
 
 }

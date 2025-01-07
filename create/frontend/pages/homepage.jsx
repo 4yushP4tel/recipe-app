@@ -1,9 +1,10 @@
 import React, {useState } from 'react';
 import food_image from '../images/food.png'
+import { Link } from 'react-router-dom';
 import { Wheel } from '../components/image_wheel';
 import { Slideshow } from '../components/slideshow';
 
-export function HomepageSignedOut({goToPage}){
+export function HomepageSignedOut(){
     return(
         <div className='signedout_container'>
             <div className='header-container'>
@@ -16,20 +17,24 @@ export function HomepageSignedOut({goToPage}){
                     <h2>Welcome to What's 4 Diner</h2>
                     <p>Find custom recipes that you can cook with whatever you have at home!</p>
                 </div>
-            <button onClick={() => goToPage('signup')}>Get Started Today</button>
+            <Link to="/signup">
+                <button>Get Started Today</button>
+            </Link>
             </div>
         </div>
     );
 }
 
-export function HomepageSignedIn({ goToPage }){
+export function HomepageSignedIn(){
     return(
         <div className='signedin_container'>
             <h2>Welcome to What's 4 Diner</h2>
             <p>Find custom recipes that you can cook with whatever you
                 have at home!
             </p>
-            <button className = "find_recipes_button" onClick={()=> goToPage('recipes')}>Find Recipes Today</button> 
+            <Link to="/recipes">
+            <button className = "find_recipes_button">Find Recipes Today</button>             
+            </Link>
             <Slideshow/>       
         </div>
     );

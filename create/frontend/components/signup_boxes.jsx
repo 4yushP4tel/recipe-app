@@ -1,31 +1,78 @@
 import {React, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export function Signin_Box(){
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+
+        try {
+            const response = await axios.post("http://127.0.0.1:5000/login", {
+                email: formData.email,
+                password: formData.password
+            }, { withCredentials: true});
+        if(response.status === 200){
+            const authResponse = await axios.get("http://127.0.0.1:5000/check_auth", { withCredentials: true });
+            if(authResponse.data.auth_status) {
+                console.log('login_successful')
+                console.log(response.status)
+                navigate("/homesignedin")
+            }
+            else{
+                console.log("Authentication Failed after Login")
+            }
+        }
+            
+        } catch (err) {
+            if (err.response) {
+                setError('Email and Password do not match');
+                console.log('Email and Password do not match');
+            } else {
+                setError("An error occurred. Please try again.");
+                console.log('wrong');
+            }
+        }
+    };
+
+    
     return (
         <div className="signincontainer">
             
             <h2>Sign In</h2>
-            <form>
-                <div className='inputfield'>
-                    <label className='signuplabels'>Username</label>
-                    <input type="text" 
-                    required
-                    />
-                </div>
+            <form onSubmit={handleSubmit}>
                 <div className='inputfield'>
                     <label className='signuplabels'>Email</label>
-                    <input type="email" 
-                    required
+                    <input 
+                        type="email" 
+                        name='email'
+                        value = {formData.email}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
 
                 <div className='inputfield'>
                     <label className='signuplabels'>Password</label>
-                    <input type={visible ? "text": "password"}
-                    required
+                    <input 
+                        type={visible ? "text": "password"}
+                        name='password'
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
                     />
                     <div className='visibility'>
                         <button onClick={(event)=> {event.preventDefault();setVisible(!visible)}}>
@@ -36,9 +83,11 @@ export function Signin_Box(){
 
                 </div>
                 <div className='continue'>
-                    <button>Continue</button>
+                    <button type='submit'>Continue</button>
                 </div>
             </form>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
         </div>
     );
 }
@@ -54,6 +103,7 @@ export function Create_Account(){
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -76,9 +126,15 @@ export function Create_Account(){
                 email: formData.email,
                 password: formData.password,
                 confirm_password: formData.confirm_password
-            });
+            }, {withCredentials: true});
+
+        if(response.status === 201){
             setSuccess(response.data.message);
             setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
+
+            navigate("/homesignedin")
+        }
+
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.error);
