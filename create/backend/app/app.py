@@ -5,25 +5,22 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
-import psycopg2
-import sys
 from datetime import datetime, timedelta
-from flask_restful import Resource, Api
 
 KEY = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"], supports_credentials=True)
-
 load_dotenv()
 
 app.config['SESSION_TYPE'] = 'filesystem' 
+app.config['SESSION_FILE_DIR'] = '/tmp/flask_session'
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = False
-app.config['SECRET_KEY'] = KEY
+app.permanent_session_lifetime = timedelta(days=1)
+app.secret_key = KEY
 Session(app)
 
 #connect DB
@@ -54,9 +51,17 @@ class User(db.Model):
 @app.route('/check_auth', methods=['GET'])
 def check_auth():
     print(f"Session in Check:{dict(session)}")
-    if 'user_id' in session and session.get('auth_status', False):
-        return jsonify({'auth_status':True}), 200
-    return jsonify({'auth_status' : False}), 200
+    if 'user_id' in session:
+        user = User.query.filter_by(user_id=session['user_id']).first()
+        print(session['user_id'])
+        session['auth_status'] = True
+        if user:
+            print(f"User in Check: {user}")
+            return jsonify({'auth_status': session['auth_status'],
+                            'user_id': session['user_id'],
+                            'user_name': session['user_name']
+                            }), 200
+    return jsonify({'auth_status' : False, 'error': 'Session not found'}), 200
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -76,7 +81,7 @@ def create_user():
 
     if existing_user:
         print("duplicate users found")
-        return jsonify({"error": "User with this email or username already exists"}), 400
+        return jsonify({"error": "User with this email or username already exists"}), 409
 
     new_user = User(user_name=user_name, email=email, created_at = datetime.now())
     new_user.set_password(password)
@@ -91,7 +96,11 @@ def create_user():
         print('user created')
         print(session)
 
-        return jsonify({"message": "User created successfully"}), 200
+        return jsonify({"message": "User created successfully",
+                        "user_id": session['user_id'],
+                        "user_name": session['user_name'],
+                        "auth_status": session['auth_status']
+                        }), 201
     except Exception as e:
         db.session.rollback()
         print('unexpected error')
@@ -110,14 +119,23 @@ def login():
         session['auth_status'] = True
         session['user_id'] = user.user_id
         session['user_name'] = user.user_name
+        session['email'] = user.email
         session.permanent = True
-        app.permanent_session_lifetime = timedelta(days=1)
         print(f"session data: {session}")
-        print(f"Session Directory: {os.environ.get('SESSION_FILE_DIR', '/tmp')}")        
-        return jsonify({"message": "Logged in successfully"}), 200
+        return jsonify({"message": "Logged in successfully",
+                        "user_id": session['user_id'],
+                        "user_name": session['user_name'],
+                        "auth_status": session['auth_status']
+                        }), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
+    
+    
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out successfully"}), 200
 
 
 if __name__ == "__main__":

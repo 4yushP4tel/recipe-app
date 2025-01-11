@@ -9,6 +9,7 @@ import { Recipes } from './recipes';
 import '../style/main.css'
 import axios from 'axios'
 
+axios.defaults.withCredentials = true;
 
 export function App(){
     const [status, setStatus] = useState(null);
@@ -16,7 +17,8 @@ export function App(){
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/check_auth', {withCredentials: true});
+                const response = await axios.get('/api/check_auth', {withCredentials: true});
+                console.log(response)
                 if (response.data.auth_status) {
                     setStatus(true);
                     console.log("signedin")
@@ -50,7 +52,7 @@ export function App(){
                 <Route path="/pantry" element = {status ? <Pantry/>: <Navigate to="/"/>}/>
                 <Route path="/chefai" element = {status ? <ChefAI/>: <Navigate to="/"/>}/>
                 <Route path="/recipes" element = {status ? <Recipes/>: <Navigate to="/"/>}/>
-                </Routes>
+            </Routes>
 
         </div>
 

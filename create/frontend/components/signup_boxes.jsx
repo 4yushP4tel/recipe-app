@@ -21,16 +21,25 @@ export function Signin_Box(){
         setError("");
 
         try {
-            const response = await axios.post("http://127.0.0.1:5000/login", {
-                email: formData.email,
-                password: formData.password
-            }, { withCredentials: true});
+            console.log("Login Request Starting")
+            const response = await axios.post("/api/login", {
+                    email: formData.email,
+                    password: formData.password
+                }, 
+                { withCredentials: true}
+            );
+
+            console.log(`Before 200 status, Status: ${response.status}`)
+
         if(response.status === 200){
-            const authResponse = await axios.get("http://127.0.0.1:5000/check_auth", { withCredentials: true });
+
+            const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+            console.log(`After 200 status, Status: ${authResponse.status}`);
+            console.log("Auth Check response: ", authResponse);
             if(authResponse.data.auth_status) {
-                console.log('login_successful')
-                console.log(response.status)
-                navigate("/homesignedin")
+                console.log('login_successful');
+                console.log(response.status);
+                navigate("/homesignedin");
             }
             else{
                 console.log("Authentication Failed after Login")
@@ -121,7 +130,7 @@ export function Create_Account(){
         }
 
         try {
-            const response = await axios.post("http://127.0.0.1:5000/create_user", {
+            const response = await axios.post("/api/create_user", {
                 user_name: formData.user_name,
                 email: formData.email,
                 password: formData.password,
