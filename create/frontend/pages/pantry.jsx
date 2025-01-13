@@ -5,9 +5,9 @@ import '../style/main.css'
 export function Pantry(){
     const [items, setItems] = useState([]);
     const [ingredient, setIngredient] = useState("");
-    const [seetable, setSeetable] = useState(false);
+    const user_name = 'John Doe'; 
 
-    
+
 
     const handleAdd = async (e) => {
         e.preventDefault();
@@ -18,19 +18,18 @@ export function Pantry(){
         } else{
             alert("Please enter an ingredient");
         }
+
     }
 
-    const handleRemove = async (itemId) => {
+    const handleRemove = async (itemIndex) => {
         try{
             //await axios.delete(`/api/pantry/${itemId}`);
-            setItems(items.filter((item) => item.id !== itemId));
+            setItems(items.filter((_, index) => index !== itemIndex));
         } catch (error){
             console.error('Error removing item:', error);
         }
     }
 
-
-    const user_name = 'John Doe'; 
 
     return(
         <div className="pantry_page">
@@ -53,28 +52,30 @@ export function Pantry(){
                         <button type="submit">Add Ingredient</button>
                     </form>
                 </div>
-                <div className="table_container"> 
-                    <h1>{user_name}'s Pantry</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ingredient</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {items.map((item,index) =>(
-                                <tr key={index}>
-                                    <td>{item}</td>
-                                    <td>
-                                        <button onClick={() => handleRemove(item.id)}>Remove</button>
-                                    </td>
+                {items.length > 0 && (
+                    <div className="table_container"> 
+                        <h1>{user_name}'s Pantry</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ingredient</th>
+                                    <th>Action</th>
                                 </tr>
-                            )
-                        )}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {items.map((item,index) =>(
+                                    <tr key={index}>
+                                        <td>{item}</td>
+                                        <td>
+                                            <button onClick={() => handleRemove(index)}>Remove</button>
+                                        </td>
+                                    </tr>
+                                )
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
             </div>
         </div>
