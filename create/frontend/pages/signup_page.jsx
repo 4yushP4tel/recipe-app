@@ -5,7 +5,7 @@ import food_image from '../images/food.png'
 
 import {React, useState} from 'react'
 
-export function Signup(){
+export function Signup({setStatus}){
 
     const [curr_method, setCurr_method] = useState('Sign_In')
 
@@ -16,8 +16,8 @@ export function Signup(){
                 <h1>What's 4 Diner</h1>
             </div>
         <div className='signup_container'>
-            {curr_method === 'Sign_In' && <Signin_Box/>}
-            {curr_method === 'Create_Account' && <Create_Account/>}
+            {curr_method === 'Sign_In' && <Signin_Box setStatus={setStatus}/>}
+            {curr_method === 'Create_Account' && <Create_Account setStatus={setStatus}/>}
             <Signup_Google_Box/>
 
         <div className='method-buttons'>

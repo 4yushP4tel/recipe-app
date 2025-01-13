@@ -6,6 +6,7 @@ import { Signup } from './signup_page';
 import { ChefAI } from './chefai';
 import { Pantry } from './pantry';
 import { Recipes } from './recipes';
+import { Logout } from '../components/logout';
 import '../style/main.css'
 import axios from 'axios'
 
@@ -18,14 +19,8 @@ export function App(){
         const checkAuthStatus = async () => {
             try {
                 const response = await axios.get('/api/check_auth', {withCredentials: true});
-                console.log(response)
-                if (response.data.auth_status) {
-                    setStatus(true);
-                    console.log("signedin")
-                } else {
-                    setStatus(false);
-                    console.log('signedout')
-                }
+                console.log(response.data.auth_status);
+                setStatus(response.data.auth_status);
             } catch (error) {
                 console.error('Error checking authentication status:', error);
                 setStatus(false);
@@ -42,11 +37,13 @@ export function App(){
 
     return(
         <Router>
-            {status && <Header />} 
+            {status && <Header setStatus = {setStatus}/>} 
         
         <div className='chosen_page'>
             <Routes> 
                 <Route path="/" element={status ? <HomepageSignedIn/> :<HomepageSignedOut />} />
+                <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup setStatus={setStatus} />} />
+                <Route path="/logout" element={<Logout setStatus={setStatus} />} />
                 <Route path="/homesignedin" element = {status ? <HomepageSignedIn/>: <Navigate to="/"/>}/>
                 <Route path="/signup" element={status? <Navigate to="/homesignedin"/>: <Signup/>} />
                 <Route path="/pantry" element = {status ? <Pantry/>: <Navigate to="/"/>}/>

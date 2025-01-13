@@ -1,9 +1,11 @@
 import {React, useState} from "react"
 import food_image from '../images/food.png'
 import { Link } from "react-router-dom";
+import { Logout } from './logout';
+import axios from 'axios';
 
 
-export function Header(){
+export function Header( {setStatus} ){
     return(
     <header className="navbar">
         <div className="left_nav">
@@ -24,6 +26,7 @@ export function Header(){
             <Link to={"/chefai"}>
                 <button>ChefAI</button>
             </Link>
+            <Logout setStatus={setStatus} />
         </nav>
     </header>
 

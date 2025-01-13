@@ -2,7 +2,7 @@ import {React, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export function Signin_Box(){
+export function Signin_Box( {setStatus} ){
     const [visible, setVisible] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -29,21 +29,13 @@ export function Signin_Box(){
                 { withCredentials: true}
             );
 
-            console.log(`Before 200 status, Status: ${response.status}`)
+            console.log(`Before 200 status, Status: ${response.status}`);
 
         if(response.status === 200){
-
-            const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
-            console.log(`After 200 status, Status: ${authResponse.status}`);
-            console.log("Auth Check response: ", authResponse);
-            if(authResponse.data.auth_status) {
-                console.log('login_successful');
-                console.log(response.status);
-                navigate("/homesignedin");
-            }
-            else{
-                console.log("Authentication Failed after Login")
-            }
+            const authResponse = await axios.get("/api/check_auth", {withCredentials: true});
+            const authStatus = authResponse.data.auth_status;
+            setStatus(authStatus);
+            navigate("/");
         }
             
         } catch (err) {
@@ -101,7 +93,7 @@ export function Signin_Box(){
     );
 }
 
-export function Create_Account(){
+export function Create_Account({setStatus}){
     const [visible, setVisible] = useState(false)
 
     const [formData, setFormData] = useState({
@@ -140,8 +132,9 @@ export function Create_Account(){
         if(response.status === 201){
             setSuccess(response.data.message);
             setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
-
-            navigate("/homesignedin")
+            const authStatus = authResponse.data.auth_status;
+            setStatus(authStatus);
+            navigate("/");
         }
 
         } catch (err) {

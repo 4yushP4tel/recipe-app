@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, redirect
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -57,10 +57,11 @@ def check_auth():
         session['auth_status'] = True
         if user:
             print(f"User in Check: {user}")
-            return jsonify({'auth_status': session['auth_status'],
+            return jsonify({'auth_status': True,
                             'user_id': session['user_id'],
                             'user_name': session['user_name']
                             }), 200
+    print("Current status: Logged out")
     return jsonify({'auth_status' : False, 'error': 'Session not found'}), 200
 
 @app.route('/create_user', methods=['POST'])
