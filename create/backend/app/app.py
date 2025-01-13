@@ -62,7 +62,7 @@ def check_auth():
                             'user_name': session['user_name']
                             }), 200
     print("Current status: Logged out")
-    return jsonify({'auth_status' : False, 'error': 'Session not found'}), 200
+    return jsonify({'auth_status' : True, 'error': 'Session not found'}), 200
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
