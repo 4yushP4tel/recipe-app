@@ -29,6 +29,7 @@ db_user = os.getenv('dbuser')
 db_password = os.getenv('dbpassword')
 db_name = os.getenv('dbname')
 db_table_name1 = os.getenv('db_table_name1')
+db_table_name2 = os.getenv('db_table_name2')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_host}/{db_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -62,7 +63,7 @@ def check_auth():
                             'user_name': session['user_name']
                             }), 200
     print("Current status: Logged out")
-    return jsonify({'auth_status' : True, 'error': 'Session not found'}), 200
+    return jsonify({'auth_status' : False, 'error': 'Session not found'}), 200
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -104,7 +105,7 @@ def create_user():
                         }), 201
     except Exception as e:
         db.session.rollback()
-        print('unexpected error')
+        print('unexpected error when creating user')
         return jsonify({"error": str(e)}), 500
 
 
@@ -138,6 +139,62 @@ def logout():
     session.clear()
     return jsonify({"message": "Logged out successfully"}), 200
 
+
+#pantry routes:
+
+class Ingredient(db.Model):
+    __tablename__ = db_table_name2
+    id = db.Column(db.Integer, primary_key=True)
+    ingredient_name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    added_at = db.Column(db.DateTime, default = datetime.now)
+
+@app.route('/pantry', methods=['POST'])
+def add_ingredient():
+    if "user_id" not in session:
+        return jsonify({"error": "User not logged in"}), 401
+    data = request.get_json()
+    ingredient_name = data.get('ingredient_name')
+    user_id = session['user_id']
+    if not ingredient_name:
+        return jsonify({"error": "Ingredient name is required"}), 400
+    new_ingredient = Ingredient(ingredient_name=ingredient_name, user_id=user_id, added_at = datetime.now())
+    try:
+        db.session.add(new_ingredient)
+        db.session.commit()
+        return jsonify({"message": "Ingredient added successfully",
+                        "ingredient_id": new_ingredient.id,
+                        "ingredient_name": new_ingredient.ingredient_name,
+                        "user_id": new_ingredient.user_id
+                        }), 201
+    except Exception as e:
+        db.session.rollback()
+        print('unexpected error when adding ingredient')
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/pantry', methods=['GET'])
+def get_ingredients():
+    if "user_id" not in session:
+        return jsonify({"error": "User not logged in"}), 401
+    user_id = session['user_id']
+    ingredients = Ingredient.query.filter_by(user_id=user_id).all()
+    ingredients_list = [{"ingredient_id": ingredient.id,
+                         "ingredient_name": ingredient.ingredient_name,
+                         "user_id": ingredient.user_id
+                         } for ingredient in ingredients]
+    return jsonify({"ingredients": ingredients_list}), 200
+
+@app.route('/pantry/<int:ingredient_id>', methods=['DELETE'])
+def delete_ingredient(ingredient_id):
+    if "user_id" not in session:
+        return jsonify({"error": "User not logged in"}), 401
+    user_id = session['user_id']
+    ingredient = Ingredient.query.filter_by(id=ingredient_id, user_id=user_id).first()
+    if not ingredient:
+        return jsonify({"error": "Ingredient not found"}), 404
+    db.session.delete(ingredient)
+    db.session.commit()
+    return jsonify({"message": "Ingredient deleted successfully"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
