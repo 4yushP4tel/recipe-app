@@ -17,7 +17,14 @@ export const Logout = ({setStatus}) => {
             console.log("Error logging out: ", error);
         }}
 
+    const handleLogoutWithConfirm =  () => {
+        const confirmLogout = window.confirm("Are you sure you want to logout?");
+        if (confirmLogout){
+            handleLogout();
+        }
+    }
+
     return(
-        <button className = "logout_button" onClick={handleLogout}>Logout</button>
+        <button className = "logout_button" onClick={handleLogoutWithConfirm}>Logout</button>
     );
 };
