@@ -57,6 +57,34 @@ export function Pantry(){
         }
     }
 
+    const emptyPantry = <div className="table_container">
+                            <h1>{username}'s Pantry</h1>
+                            <p>Your pantry is empty. Add ingredients to get started!</p>
+                        </div>
+
+    const non_emptyPantry = <div className="table_container"> 
+                                <h1>{username}'s Pantry</h1>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Ingredient</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {items.map((item) =>(
+                                            <tr key={item.id}>
+                                                <td>{item.ingredient_name}</td>
+                                                <td>
+                                                    <button onClick={() => handleRemove(item.id)}>Remove</button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
+
 
     return(
         <div className="pantry_page">
@@ -79,30 +107,8 @@ export function Pantry(){
                         <button type="submit">Add Ingredient</button>
                     </form>
                 </div>
-                {items.length > 0 && (
-                    <div className="table_container"> 
-                        <h1>{username}'s Pantry</h1>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Ingredient</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {items.map((item) =>(
-                                    <tr key={item.id}>
-                                        <td>{item.ingredient_name}</td>
-                                        <td>
-                                            <button onClick={() => handleRemove(item.id)}>Remove</button>
-                                        </td>
-                                    </tr>
-                                )
-                            )}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                {items.length > 0 ? non_emptyPantry : emptyPantry 
+                }
 
             </div>
         </div>
