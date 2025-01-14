@@ -1,8 +1,11 @@
 import {React, useState} from "react"
 import food_image from '../images/food.png'
+import { Link } from "react-router-dom";
+import { Logout } from './logout';
+import axios from 'axios';
 
 
-export function Header({ goToPage }){
+export function Header( {setStatus} ){
     return(
     <header className="navbar">
         <div className="left_nav">
@@ -11,10 +14,19 @@ export function Header({ goToPage }){
         </div>
 
         <nav className= "nav-links">
-            <button onClick={() => goToPage('homesignedin')}>Home</button>
-            <button onClick={() => goToPage('recipes')}>Find Recipes</button>
-            <button onClick={() => goToPage('pantry')}>Pantry</button>
-            <button onClick={() => goToPage('chefai')}>ChefAI</button>
+            <Link to={"/homesignedin"}>
+                <button>Home</button>
+            </Link>
+            <Link to={"/recipes"}>
+                <button>Find Recipes</button>
+            </Link>
+            <Link to={"/pantry"}>
+                <button>Pantry</button>
+            </Link>
+            <Link to={"/chefai"}>
+                <button>ChefAI</button>
+            </Link>
+            <Logout setStatus={setStatus} />
         </nav>
     </header>
 

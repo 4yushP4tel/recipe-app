@@ -3,3 +3,5 @@
 
 #ignore the environment variables
 .env
+
+flask_session
