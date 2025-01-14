@@ -132,6 +132,7 @@ export function Create_Account({setStatus}){
         if(response.status === 201){
             setSuccess(response.data.message);
             setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
+            const authResponse = await axios.get("/api/check_auth", {withCredentials: true});
             const authStatus = authResponse.data.auth_status;
             setStatus(authStatus);
             navigate("/");

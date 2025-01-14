@@ -6,6 +6,8 @@ export function Pantry(){
     const [items, setItems] = useState([]);
     const [ingredient, setIngredient] = useState("");
     const [username, setUserName] = useState("");
+    const [userId, setUserId] = useState(0);
+
 
     useEffect(() => {
         const getData = async () => {
@@ -15,6 +17,7 @@ export function Pantry(){
 
                 setUserName(response.data.user_name);
                 setItems(response.data.ingredients);
+                setUserId(response.data.user_id);
             } catch (error){
                 console.error("Error getting username:", error);
             }
@@ -28,10 +31,14 @@ export function Pantry(){
 
         if (ingredient.trim()){
             try{
-                const response = await axios.post("/api/pantry",
-                    {ingredient_name: ingredient.trim()},
-                    {withCredentials: true});
-                setItems([...items, { id: response.data.ingredient_id, ingredient_name: ingredient.trim() }]);
+                const response = await axios.post("/api/pantry", {
+                    ingredient_name: ingredient.trim(),
+                    user_id : userId,
+                }, 
+                {withCredentials: true});
+
+                const { ingredient_id, ingredient_name } = response.data;
+                setItems([...items, { id: ingredient_id, ingredient_name: ingredient_name }]);
                 setIngredient("");
             } catch (error){
                 console.error("Error adding ingredient:", error);
@@ -83,9 +90,9 @@ export function Pantry(){
                                 </tr>
                             </thead>
                             <tbody>
-                                {items.map((item,index) =>(
-                                    <tr key={index}>
-                                        <td>{item}</td>
+                                {items.map((item) =>(
+                                    <tr key={item.id}>
+                                        <td>{item.ingredient_name}</td>
                                         <td>
                                             <button onClick={() => handleRemove(item.id)}>Remove</button>
                                         </td>

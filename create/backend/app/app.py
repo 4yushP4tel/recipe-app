@@ -147,7 +147,7 @@ class Ingredient(db.Model):
     __tablename__ = db_table_name2
     id = db.Column(db.Integer, primary_key=True)
     ingredient_name = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
 
 @app.route('/pantry', methods=['POST'])
