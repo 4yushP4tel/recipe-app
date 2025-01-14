@@ -11,6 +11,8 @@ import '../style/main.css'
 import axios from 'axios'
 
 axios.defaults.withCredentials = true;
+const NotFound = () => <h1>404 - Page Not Found</h1>;
+
 
 export function App(){
     const [status, setStatus] = useState(null);
@@ -41,6 +43,7 @@ export function App(){
         
         <div className='chosen_page'>
             <Routes> 
+                <Route path='*' element={<NotFound/>}/>
                 <Route path="/" element={status ? <HomepageSignedIn/> :<HomepageSignedOut />} />
                 <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup setStatus={setStatus} />} />
                 <Route path="/logout" element={<Logout setStatus={setStatus} />} />

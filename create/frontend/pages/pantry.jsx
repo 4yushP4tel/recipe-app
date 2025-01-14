@@ -5,26 +5,46 @@ import '../style/main.css'
 export function Pantry(){
     const [items, setItems] = useState([]);
     const [ingredient, setIngredient] = useState("");
-    const user_name = 'John Doe'; 
+    const [username, setUserName] = useState("");
 
+    useEffect(() => {
+        const getData = async () => {
+            try{
+                const response = await axios.get("/api/pantry",
+                    {withCredentials: true});
+
+                setUserName(response.data.user_name);
+                setItems(response.data.ingredients);
+            } catch (error){
+                console.error("Error getting username:", error);
+            }
+        };
+        getData();
+    }, []);
 
 
     const handleAdd = async (e) => {
         e.preventDefault();
 
         if (ingredient.trim()){
-            setItems([...items, ingredient.trim()]);
-            setIngredient("");
-        } else{
-            alert("Please enter an ingredient");
-        }
+            try{
+                const response = await axios.post("/api/pantry",
+                    {ingredient_name: ingredient.trim()},
+                    {withCredentials: true});
+                setItems([...items, { id: response.data.ingredient_id, ingredient_name: ingredient.trim() }]);
+                setIngredient("");
+            } catch (error){
+                console.error("Error adding ingredient:", error);
 
-    }
+        }} else{ alert("Please enter an ingredient");
+        } 
+    };
 
-    const handleRemove = async (itemIndex) => {
+    const handleRemove = async (itemId) => {
         try{
-            //await axios.delete(`/api/pantry/${itemId}`);
-            setItems(items.filter((_, index) => index !== itemIndex));
+            await axios.delete(`/api/pantry/${itemId}`,
+                {withCredentials: true});
+            setItems(items.filter((item) => item.id !== itemId));
         } catch (error){
             console.error('Error removing item:', error);
         }
@@ -54,7 +74,7 @@ export function Pantry(){
                 </div>
                 {items.length > 0 && (
                     <div className="table_container"> 
-                        <h1>{user_name}'s Pantry</h1>
+                        <h1>{username}'s Pantry</h1>
                         <table>
                             <thead>
                                 <tr>
@@ -67,7 +87,7 @@ export function Pantry(){
                                     <tr key={index}>
                                         <td>{item}</td>
                                         <td>
-                                            <button onClick={() => handleRemove(index)}>Remove</button>
+                                            <button onClick={() => handleRemove(item.id)}>Remove</button>
                                         </td>
                                     </tr>
                                 )

@@ -18,7 +18,8 @@ app.config['SESSION_FILE_DIR'] = '/tmp/flask_session'
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_Name'] = 'session'
+app.config['SESSION_COOKIE_SECURE'] = True
 app.permanent_session_lifetime = timedelta(days=1)
 app.secret_key = KEY
 Session(app)
@@ -165,7 +166,8 @@ def add_ingredient():
         return jsonify({"message": "Ingredient added successfully",
                         "ingredient_id": new_ingredient.id,
                         "ingredient_name": new_ingredient.ingredient_name,
-                        "user_id": new_ingredient.user_id
+                        "user_id": new_ingredient.user_id,
+                        'user_name': session['user_name']
                         }), 201
     except Exception as e:
         db.session.rollback()
@@ -178,11 +180,13 @@ def get_ingredients():
         return jsonify({"error": "User not logged in"}), 401
     user_id = session['user_id']
     ingredients = Ingredient.query.filter_by(user_id=user_id).all()
-    ingredients_list = [{"ingredient_id": ingredient.id,
-                         "ingredient_name": ingredient.ingredient_name,
-                         "user_id": ingredient.user_id
-                         } for ingredient in ingredients]
-    return jsonify({"ingredients": ingredients_list}), 200
+    ingredients_list = [{"ingredient_name": ingredient.ingredient_name,
+                        "id": ingredient.id,} for ingredient in ingredients]
+    
+    return jsonify({"ingredients": ingredients_list,
+                    "user_id": user_id,
+                    "user_name": session['user_name']
+                    }), 200
 
 @app.route('/pantry/<int:ingredient_id>', methods=['DELETE'])
 def delete_ingredient(ingredient_id):
