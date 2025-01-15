@@ -504,7 +504,153 @@ body {
     background-color: #ff1a1a;
 }
 
+.chefai_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    max-width: 800px;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0 auto;
+}
 
+.top_message {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 150px;
+    color: #333;
+    top: 0;
+    position: sticky;
+}
+
+.top_message h2 {
+    font-size: 2rem;
+    color: #202334;
+    margin-bottom: 5px;
+}
+
+.top_message p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.chat_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    background-color: #f9f8f3;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.chat_output_container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.message.user {
+    background-color: #e0f7fa;
+    text-align: left;
+    border: 1px solid #b2ebf2;
+}
+
+.message.assistant {
+    background-color: #f1f8e9;
+    text-align: left;
+    border: 1px solid #dcedc8;
+}
+
+.chat_input_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.chat_input_container form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.chat_input_container textarea {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+    resize: none;
+    overflow-y: hidden;
+    min-height: 40px;
+    max-height: 200px;
+}
+
+.chat_input_container input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 120, 255, 0.5);
+}
+
+.chat_input_container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #202334;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.chat_input_container button:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+.chat_input_container button:active {
+    transform: scale(0.95);
+}
+
+.chat_input_container button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.chef_emoji {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.chef_emoji.bouncing {
+    animation: bounce 1s infinite;
+}
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
 
 
 @media (max-width: 768px) {

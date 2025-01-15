@@ -21,7 +21,6 @@ export function App(){
         const checkAuthStatus = async () => {
             try {
                 const response = await axios.get('/api/check_auth', {withCredentials: true});
-                console.log(response.data.auth_status);
                 setStatus(response.data.auth_status);
             } catch (error) {
                 console.error('Error checking authentication status:', error);

@@ -211,13 +211,10 @@ openai_key = os.getenv('openai_key')
 client = OpenAI(api_key= openai_key)
 content = os.getenv('open_ai_content')
 
-def get_openai_response(prompt):
+def get_openai_response(prompt, chat_history):
     completion = client.chat.completions.create(
         model= "gpt-4o",
-        messages= [
-            {"role": "system", "content": content},
-            {"role": "user", "content": prompt}
-        ],
+        messages= [{"role": "system", "content": content}] + chat_history + [{"role": "user", "content": prompt}],
         temperature = 0.05
     )
     return completion.choices[0].message.content
@@ -229,8 +226,24 @@ def get_response():
     user_name = session['user_name']
     if not prompt:
         return jsonify({"error": "Prompt is required"}), 400
-    response = get_openai_response(prompt)
+    if "chat_history" not in session:
+        session['chat_history'] = []
+
+    user_id = session['user_id']
+    ingredients = Ingredient.query.filter_by(user_id=user_id).all()
+    ingreidents_list = [ingredient.ingredient_name for ingredient in ingredients]
+    ingredients_str = ", ".join(ingreidents_list)
+    prompt = f"""{prompt} Ingredients in the pantry are: {ingredients_str}.
+              """
+
+    chat_history = session['chat_history']
+    response = get_openai_response(prompt, chat_history)
+    chat_history.append({"role": "user", "content": prompt})
+    chat_history.append({"role": "assistant", "content": response})
+    session['chat_history'] = chat_history
+
     return jsonify({"response_message": response,
+                    "response_history": chat_history,
                     "user_name": user_name}), 200
 
 if __name__ == "__main__":
