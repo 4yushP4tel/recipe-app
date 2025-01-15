@@ -1,4 +1,5 @@
 import os
+from openai import OpenAI
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, session, redirect
 from flask_bcrypt import Bcrypt
@@ -6,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
 from datetime import datetime, timedelta
+
 
 KEY = os.getenv("SECRET_KEY")
 
@@ -35,6 +37,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+
+#user Routes
 
 class User(db.Model):
     __tablename__ = db_table_name1
@@ -199,6 +204,34 @@ def delete_ingredient(ingredient_id):
     db.session.delete(ingredient)
     db.session.commit()
     return jsonify({"message": "Ingredient deleted successfully"}), 200
+
+#chef ai routes
+
+openai_key = os.getenv('openai_key')
+client = OpenAI(api_key= openai_key)
+content = os.getenv('open_ai_content')
+
+def get_openai_response(prompt):
+    completion = client.chat.completions.create(
+        model= "gpt-4o",
+        messages= [
+            {"role": "system", "content": content},
+            {"role": "user", "content": prompt}
+        ],
+        temperature = 0.05
+    )
+    return completion.choices[0].message.content
+
+@app.route('/chefai', methods=['POST'])
+def get_response():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    user_name = session['user_name']
+    if not prompt:
+        return jsonify({"error": "Prompt is required"}), 400
+    response = get_openai_response(prompt)
+    return jsonify({"response_message": response,
+                    "user_name": user_name}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
