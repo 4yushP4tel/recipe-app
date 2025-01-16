@@ -569,12 +569,15 @@ body {
     background-color: #e0f7fa;
     text-align: left;
     border: 1px solid #b2ebf2;
+    white-space: pre-wrap;
 }
 
 .message.assistant {
     background-color: #f1f8e9;
     text-align: left;
     border: 1px solid #dcedc8;
+    white-space: pre-wrap;
+
 }
 
 .chat_input_container {

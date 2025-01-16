@@ -233,8 +233,7 @@ def get_response():
     ingredients = Ingredient.query.filter_by(user_id=user_id).all()
     ingreidents_list = [ingredient.ingredient_name for ingredient in ingredients]
     ingredients_str = ", ".join(ingreidents_list)
-    prompt = f"""{prompt} Ingredients in the pantry are: {ingredients_str}.
-              """
+    prompt = f"{prompt} Ingredients in the pantry are: {ingredients_str}."
 
     chat_history = session['chat_history']
     response = get_openai_response(prompt, chat_history)
