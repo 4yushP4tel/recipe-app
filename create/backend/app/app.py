@@ -245,5 +245,18 @@ def get_response():
                     "response_history": chat_history,
                     "user_name": user_name}), 200
 
+@app.route("/recipes", methods=['POST'])
+def post_recipes():
+    pass
+
+@app.route("/recipes", methods=['GET'])
+def get_recipes():
+    ingredients = Ingredient.query.filter_by(user_id=session['user_id']).all()
+
+
+@app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
+def delete_recipe():
+    pass
+
 if __name__ == "__main__":
     app.run(debug=True)
