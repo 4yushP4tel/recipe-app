@@ -5,6 +5,10 @@ export function Recipes(){
     const[mode, setMode] = useState("view");
     const[selectedingredients, setSelectedIngredients] = useState([]);
 
+    const handleSearch = () =>{
+        
+    }
+
     const view_section = (
         <div>
             view
@@ -13,7 +17,14 @@ export function Recipes(){
 
     const search_section = (
         <div>
-            search
+            <div className="ingredients_select">
+                <form>
+
+                </form>
+            </div>
+            <div className="search_results">
+
+            </div>
         </div>
     );
 

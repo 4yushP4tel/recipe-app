@@ -33,6 +33,7 @@ db_password = os.getenv('dbpassword')
 db_name = os.getenv('dbname')
 db_table_name1 = os.getenv('db_table_name1')
 db_table_name2 = os.getenv('db_table_name2')
+db_table_name3 = os.getenv("db_table_name3")
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_host}/{db_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -244,6 +245,16 @@ def get_response():
     return jsonify({"response_message": response,
                     "response_history": chat_history,
                     "user_name": user_name}), 200
+
+#recipes routes
+
+class Recipes(db.Model):
+    __tablename__ = db_table_name3
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
+    added_at = db.Column(db.DateTime, default = datetime.now)
+    
 
 @app.route("/recipes", methods=['POST'])
 def post_recipes():
