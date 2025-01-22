@@ -30,6 +30,11 @@ export function Pantry(){
         e.preventDefault();
 
         if (ingredient.trim()){
+
+            if (items.some(item => item.ingredient_name.toLowerCase()===ingredient.trim().toLowerCase())){
+                alert("This ingredient is already in your pantry");
+                return;
+            }
             try{
                 const response = await axios.post("/api/pantry", {
                     ingredient_name: ingredient.trim(),
