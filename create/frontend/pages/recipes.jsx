@@ -6,7 +6,8 @@ export function Recipes(){
     const[mode, setMode] = useState("view");
     const [ingredients, setIngredients] = useState([]);
     const[selectedIngredients, setSelectedIngredients] = useState([]);
-    const [userID, setUserID] = useState(0)
+    const [userID, setUserID] = useState(0);
+    const [recipes, setRecipes] = useState([]);
 
     useEffect(()=>{
         const getIngredients = async ()=>{
@@ -25,16 +26,30 @@ export function Recipes(){
 
     const handleSearch = async (e) =>{
         e.preventDefault()
-        console.log(selectedIngredients)
 
-        const response = await axios.post(
-            "/api/recipes",
-            {withCredentials:true},
+        if (selectedIngredients.length === 0){
+            alert("Please select some ingredients!")
+            return;
+        }
+        const selected_ingredient_arr = []
+        selectedIngredients.map((ingredient)=>{
+            selected_ingredient_arr.push(ingredient.label);
+        });
+
+        const response = await axios.post("/api/search_recipes",
             {
-                selected_ingredients : selectedIngredients,
+                selected_ingredients : selected_ingredient_arr,
                 user_id : userID
+            },
+            {
+                withCredentials: true
             }
-            );
+        )
+
+        const answer = response.data
+        console.log(answer)
+
+
     }
 
     const view_section = (

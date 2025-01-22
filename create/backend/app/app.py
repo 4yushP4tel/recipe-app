@@ -255,28 +255,38 @@ class Recipes(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
 
-def search_recipes(ingredients):
+def search_recipes_withAPI(ingredients):
     #Use this function to use the recipe API
-    pass
+    return f"These are the selected ingredients: {', '.join(ingredients)}"
     
 
-@app.route("/recipes", methods=['POST'])
-def post_recipes():
+@app.route("/search_recipes", methods=['POST'])
+def search_recipes():
     if "user_id" not in session:
         return jsonify({"error": "User not logged in"}), 401
     data = request.get_json()
-    selected_ingredients = data.get('selected_ingredients')
+    selected_ingredients = data.get('selected_ingredients', [])
     user_id = session['user_id']
 
-    search_recipes(selected_ingredients)
-    return jsonify({
-        "selected_ingredients" : selected_ingredients,
-        "user_id" : user_id
-    })
+    if not selected_ingredients:
+        return jsonify({"error": "No ingredients chosen"})
 
+    try:
+        selected_ing = search_recipes_withAPI(selected_ingredients)
+        return jsonify({
+            "selected_ingredients" : selected_ing,
+            "user_id" : user_id
+        })
+    except Exception as e:
+        return jsonify({"error": e})
+
+
+@app.route("/recipes", methods = ['POST'])
+def save_recipes():
+    pass
 
 @app.route("/recipes", methods=['GET'])
-def get_recipes():
+def view_recipes():
     pass
 
 @app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
