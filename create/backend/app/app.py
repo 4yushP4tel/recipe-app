@@ -254,16 +254,30 @@ class Recipes(db.Model):
     recipe_name = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
+
+def search_recipes(ingredients):
+    #Use this function to use the recipe API
+    pass
     
 
 @app.route("/recipes", methods=['POST'])
 def post_recipes():
-    pass
+    if "user_id" not in session:
+        return jsonify({"error": "User not logged in"}), 401
+    data = request.get_json()
+    selected_ingredients = data.get('selected_ingredients')
+    user_id = session['user_id']
+
+    search_recipes(selected_ingredients)
+    return jsonify({
+        "selected_ingredients" : selected_ingredients,
+        "user_id" : user_id
+    })
+
 
 @app.route("/recipes", methods=['GET'])
 def get_recipes():
-    ingredients = Ingredient.query.filter_by(user_id=session['user_id']).all()
-
+    pass
 
 @app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
 def delete_recipe():

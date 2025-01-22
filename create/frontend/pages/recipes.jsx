@@ -1,12 +1,40 @@
 import React, {useEffect, useState} from "react";
+import Select from "react-select";
 import axios from "axios";
 
 export function Recipes(){
     const[mode, setMode] = useState("view");
-    const[selectedingredients, setSelectedIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
+    const[selectedIngredients, setSelectedIngredients] = useState([]);
+    const [userID, setUserID] = useState(0)
 
-    const handleSearch = () =>{
-        
+    useEffect(()=>{
+        const getIngredients = async ()=>{
+            try{
+                const response = await axios.get("/api/pantry", {withCredentials: true});
+                setIngredients(response.data.ingredients);
+                setUserID(response.data.user_id)
+            } catch(error){
+                console.log(error);
+            }
+        };
+        getIngredients();
+    },[])
+
+
+
+    const handleSearch = async (e) =>{
+        e.preventDefault()
+        console.log(selectedIngredients)
+
+        const response = await axios.post(
+            "/api/recipes",
+            {withCredentials:true},
+            {
+                selected_ingredients : selectedIngredients,
+                user_id : userID
+            }
+            );
     }
 
     const view_section = (
@@ -16,9 +44,22 @@ export function Recipes(){
     );
 
     const search_section = (
-        <div>
+        <div className="search_section">
+            <h3>Choose which ingredients you'd like to cook with: </h3>
             <div className="ingredients_select">
-                <form>
+                <form onSubmit = {handleSearch}>
+                    <Select
+                        isMulti
+                        options = {ingredients.map(ingredient => ({
+                            value: ingredient.id,
+                            label: ingredient.ingredient_name,
+                        }))}
+                        value = {selectedIngredients}
+                        onChange = {setSelectedIngredients}
+                        placeholder = "Select Ingredients"
+                        />
+                    <button type="submit">Search Recipes</button>
+                        
 
                 </form>
             </div>

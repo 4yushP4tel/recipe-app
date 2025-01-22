@@ -655,6 +655,195 @@ body {
     }
 }
 
+/* Recipes Page Styles */
+.recipes_page {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin-bottom: 150px;
+}
+
+
+/* Top Message Styling */
+.top_message {
+    width: 100%;
+    text-align: center;
+}
+
+.top_message h2 {
+    font-size: 2rem;
+    color: #202334;
+    margin-bottom: 20px;
+}
+
+/* Mode Buttons Section */
+.mode_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.mode_buttons form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.mode_buttons label {
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mode_buttons input[type="radio"] {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.mode_buttons input[type="radio"]:checked {
+    background-color: #202334;
+}
+
+.view_section {
+    width: 100%;
+    text-align: center;
+}
+
+.view_section h3 {
+    font-size: 1.8rem;
+    color: #202334;
+    margin-top: 20px;
+}
+
+.view_section p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.search_section {
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search_section h3 {
+    font-size: 1.5rem;
+    color: #202334;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ingredients_select {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredients_select form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+}
+
+.ingredients_select form button {
+    padding: 10px 20px;
+    background-color: #202334;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.ingredients_select form button:hover {
+    background-color: #333;
+}
+
+.ingredients_select form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.search_results {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+.search_results .recipe_item {
+    width: 300px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.search_results .recipe_item:hover {
+    transform: scale(1.05);
+}
+
+.search_results .recipe_item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.search_results .recipe_item_content {
+    padding: 15px;
+}
+
+.search_results .recipe_item_content h4 {
+    font-size: 1.5rem;
+    color: #202334;
+}
+
+.search_results .recipe_item_content p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.search_results .recipe_item_content button {
+    padding: 10px 20px;
+    background-color: #202334;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.search_results .recipe_item_content button:hover {
+    background-color: #333;
+}
+
 
 @media (max-width: 768px) {
     .header-container {
@@ -684,6 +873,35 @@ body {
         width: 100%;
         margin-top: 10px;
     }
+
+
+    .recipes_page {
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .mode_buttons {
+        flex-direction: column;
+    }
+
+    .mode_buttons form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mode_buttons label {
+        font-size: 1rem;
+    }
+
+    .mode_buttons input[type="radio"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    .top_message h2 {
+        font-size: 1.6rem;
+    }
+
 }
 
 .imagewheel{
