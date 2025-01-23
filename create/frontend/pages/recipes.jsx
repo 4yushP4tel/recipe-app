@@ -7,6 +7,7 @@ export function Recipes(){
     const [ingredients, setIngredients] = useState([]);
     const[selectedIngredients, setSelectedIngredients] = useState([]);
     const [userID, setUserID] = useState(0);
+    const [selected_message, setSelected_message] = useState("")
     const [recipes, setRecipes] = useState([]);
 
     useEffect(()=>{
@@ -46,21 +47,29 @@ export function Recipes(){
             }
         )
 
-        const answer = response.data
-        console.log(answer)
+        const message = response.data.selected_ingredients_message;
+        setSelected_message(message)
+    }
 
+    const handleSave = async (e) => {
+        e.preventDefault();
 
+        try{
+
+        } catch{
+            
+        }
     }
 
     const view_section = (
-        <div>
+        <div className="view_section">
             view
         </div>
     );
 
     const search_section = (
         <div className="search_section">
-            <h3>Choose which ingredients you'd like to cook with: </h3>
+            <h3>Select your desired ingredients:</h3>
             <div className="ingredients_select">
                 <form onSubmit = {handleSearch}>
                     <Select
@@ -74,11 +83,10 @@ export function Recipes(){
                         placeholder = "Select Ingredients"
                         />
                     <button type="submit">Search Recipes</button>
-                        
-
                 </form>
             </div>
             <div className="search_results">
+                <h3>{selected_message}</h3>
 
             </div>
         </div>

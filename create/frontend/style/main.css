@@ -655,7 +655,6 @@ body {
     }
 }
 
-/* Recipes Page Styles */
 .recipes_page {
     padding: 30px 20px;
     display: flex;
@@ -667,7 +666,6 @@ body {
 }
 
 
-/* Top Message Styling */
 .top_message {
     width: 100%;
     text-align: center;
@@ -679,7 +677,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Mode Buttons Section */
 .mode_buttons {
     display: flex;
     justify-content: center;
@@ -763,7 +760,6 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-
 }
 
 .ingredients_select form button {

@@ -7,7 +7,7 @@ export function Pantry(){
     const [ingredient, setIngredient] = useState("");
     const [username, setUserName] = useState("");
     const [userId, setUserId] = useState(0);
-
+    
 
     useEffect(() => {
         const getData = async () => {

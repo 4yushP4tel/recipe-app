@@ -9,12 +9,12 @@ export function HomepageSignedOut(){
         <div className='signedout_container'>
             <div className='header-container'>
                 <img src={food_image} alt="food_icon" />
-                <h1>What's 4 Diner</h1>
+                <h1>What's 4 Dinner</h1>
             </div>
             <Wheel/>
             <div className = 'bottom-content'>
                 <div className = 'text-left'>
-                    <h2>Welcome to What's 4 Diner</h2>
+                    <h2>Welcome to What's 4 Dinner</h2>
                     <p>Find custom recipes that you can cook with whatever you have at home!</p>
                 </div>
             <Link to="/signup">
@@ -28,7 +28,7 @@ export function HomepageSignedOut(){
 export function HomepageSignedIn(){
     return(
         <div className='signedin_container'>
-            <h2>Welcome to What's 4 Diner</h2>
+            <h2>Welcome to What's 4 Dinner</h2>
             <p>Find custom recipes that you can cook with whatever you
                 have at home!
             </p>

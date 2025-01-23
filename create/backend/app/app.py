@@ -257,7 +257,8 @@ class Recipes(db.Model):
 
 def search_recipes_withAPI(ingredients):
     #Use this function to use the recipe API
-    return f"These are the selected ingredients: {', '.join(ingredients)}"
+    message = f"Here are recipes with the following ingredients: {', '.join(ingredients)} : "
+    return message
     
 
 @app.route("/search_recipes", methods=['POST'])
@@ -272,9 +273,10 @@ def search_recipes():
         return jsonify({"error": "No ingredients chosen"})
 
     try:
-        selected_ing = search_recipes_withAPI(selected_ingredients)
+        selected_ingredient_message = search_recipes_withAPI(selected_ingredients)
         return jsonify({
-            "selected_ingredients" : selected_ing,
+            "selected_ingredients_message" : selected_ingredient_message,
+            "selected_ingredients" : selected_ingredients,
             "user_id" : user_id
         })
     except Exception as e:
