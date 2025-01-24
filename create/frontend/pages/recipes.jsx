@@ -45,16 +45,15 @@ export function Recipes() {
             const selectedString = selected_ingredient_arr.join(",")
             console.log(selectedString)
 
-            const endpoint = `${apiURL}?apiKey=${apiKey}&ingredients=${selectedString}`;
-            console.log(endpoint);
-            
-            const response = await axios.get(endpoint,
+            const response = await axios.get('/spoonacular', {
+                params: {
+                    apiKey: apiKey,
+                    ingredients: selectedString
+                }
+            },
                 { withCredentials: true });
 
-            console.log(response)
-
-
-
+            console.log(response.data);
 
 
         } catch (e) {

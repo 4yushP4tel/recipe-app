@@ -8,8 +8,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   const URL = `${env.VITE_SPOONACULAR_URL}`;
-  const KEY = `${env.VITE_SPOONACULAR_API_KEY}`;
-  const FULL_URL = `${URL}?apiKey=${KEY}&`
 
   return {
     plugins: [react()],

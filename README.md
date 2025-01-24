@@ -12,4 +12,6 @@ I am using the openAI API for the chefai feature
 
 For the recipe search, I will be using the free tier of the spoonacular api. 
 With this API, I could potentially also add new featues to this app in the future
-like a nutrition feature
+like a nutrition feature. With the use of this API, I ran into a CORS error, which
+I fixed by using a proxy for the url that I will be accessing (spoonacular api) in 
+the vite.config.js file.
