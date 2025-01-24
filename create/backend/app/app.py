@@ -254,6 +254,8 @@ class Recipes(db.Model):
     recipe_name = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
+    id_from_api = db.Column(db.Integer)
+
 
 
 @app.route("/recipes", methods = ['POST'])
