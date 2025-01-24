@@ -1,63 +1,75 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 
-export function Recipes(){
-    const[mode, setMode] = useState("view");
+const apiURL = import.meta.env.VITE_SPOONACULAR_URL;
+const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
+
+export function Recipes() {
+    const [mode, setMode] = useState("view");
     const [ingredients, setIngredients] = useState([]);
-    const[selectedIngredients, setSelectedIngredients] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [userID, setUserID] = useState(0);
-    const [selected_message, setSelected_message] = useState("")
     const [recipes, setRecipes] = useState([]);
 
-    useEffect(()=>{
-        const getIngredients = async ()=>{
-            try{
-                const response = await axios.get("/api/pantry", {withCredentials: true});
+    useEffect(() => {
+        const getIngredients = async () => {
+            try {
+                const response = await axios.get("/api/pantry", { withCredentials: true });
                 setIngredients(response.data.ingredients);
                 setUserID(response.data.user_id)
-            } catch(error){
+            } catch (error) {
                 console.log(error);
             }
         };
         getIngredients();
-    },[])
+    }, [])
 
 
 
-    const handleSearch = async (e) =>{
+    const handleSearch = async (e) => {
         e.preventDefault()
 
-        if (selectedIngredients.length === 0){
-            alert("Please select some ingredients!")
-            return;
-        }
-        const selected_ingredient_arr = []
-        selectedIngredients.map((ingredient)=>{
-            selected_ingredient_arr.push(ingredient.label);
-        });
+        try {
 
-        const response = await axios.post("/api/search_recipes",
-            {
-                selected_ingredients : selected_ingredient_arr,
-                user_id : userID
-            },
-            {
-                withCredentials: true
+            if (selectedIngredients.length === 0) {
+                alert("Please select some ingredients!")
+                return;
+            } else if (selectedIngredients.length > 10) {
+                alert("You have choosen too many ingredients! Please select fewer than 10.")
+                return;
             }
-        )
+            const selected_ingredient_arr = selectedIngredients.map(
+                (ingredient) => (ingredient.label).toLowerCase()
+            );
+            const selectedString = selected_ingredient_arr.join(",")
+            console.log(selectedString)
 
-        const message = response.data.selected_ingredients_message;
-        setSelected_message(message)
+            const endpoint = `${apiURL}?apiKey=${apiKey}&ingredients=${selectedString}`;
+            console.log(endpoint);
+            
+            const response = await axios.get(endpoint,
+                { withCredentials: true });
+
+            console.log(response)
+
+
+
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
     const handleSave = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
 
-        } catch{
-            
+        } catch {
+
         }
     }
 
@@ -71,28 +83,27 @@ export function Recipes(){
         <div className="search_section">
             <h3>Select your desired ingredients:</h3>
             <div className="ingredients_select">
-                <form onSubmit = {handleSearch}>
+                <form onSubmit={handleSearch}>
                     <Select
                         isMulti
-                        options = {ingredients.map(ingredient => ({
+                        options={ingredients.map(ingredient => ({
                             value: ingredient.id,
                             label: ingredient.ingredient_name,
                         }))}
-                        value = {selectedIngredients}
-                        onChange = {setSelectedIngredients}
-                        placeholder = "Select Ingredients"
-                        />
+                        value={selectedIngredients}
+                        onChange={setSelectedIngredients}
+                        placeholder="Select Ingredients"
+                    />
                     <button type="submit">Search Recipes</button>
                 </form>
             </div>
             <div className="search_results">
-                <h3>{selected_message}</h3>
 
             </div>
         </div>
     );
 
-    return(
+    return (
         <div className="recipes_page">
             <div className="top_message">
                 <h2>Find new recipes using the search tool</h2>
@@ -101,18 +112,18 @@ export function Recipes(){
                 <form>
                     <label> View Saved Recipes
                         <input
-                        type="radio"
-                        value="view"
-                        onChange={(e) => setMode(e.target.value)}
-                        checked={mode === "view"}
+                            type="radio"
+                            value="view"
+                            onChange={(e) => setMode(e.target.value)}
+                            checked={mode === "view"}
                         />
                     </label>
                     <label> Search for New Recipes
                         <input
-                        type="radio"
-                        value="search"
-                        onChange={(e) => setMode(e.target.value)}
-                        checked={mode === "search"}
+                            type="radio"
+                            value="search"
+                            onChange={(e) => setMode(e.target.value)}
+                            checked={mode === "search"}
                         />
                     </label>
 

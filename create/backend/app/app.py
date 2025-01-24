@@ -255,33 +255,6 @@ class Recipes(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
 
-def search_recipes_withAPI(ingredients):
-    #Use this function to use the recipe API
-    message = f"Here are recipes with the following ingredients: {', '.join(ingredients)} : "
-    return message
-    
-
-@app.route("/search_recipes", methods=['POST'])
-def search_recipes():
-    if "user_id" not in session:
-        return jsonify({"error": "User not logged in"}), 401
-    data = request.get_json()
-    selected_ingredients = data.get('selected_ingredients', [])
-    user_id = session['user_id']
-
-    if not selected_ingredients:
-        return jsonify({"error": "No ingredients chosen"})
-
-    try:
-        selected_ingredient_message = search_recipes_withAPI(selected_ingredients)
-        return jsonify({
-            "selected_ingredients_message" : selected_ingredient_message,
-            "selected_ingredients" : selected_ingredients,
-            "user_id" : user_id
-        })
-    except Exception as e:
-        return jsonify({"error": e})
-
 
 @app.route("/recipes", methods = ['POST'])
 def save_recipes():
