@@ -7,7 +7,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
-  const URL = `${env.VITE_SPOONACULAR_URL}`;
+  const ING_URL = `${env.VITE_SPOONACULAR_URL}`;
+  const ID_URL = `${env.VITE_SPOONACULAR_ID_SEARCH_URL}`;
 
   return {
     plugins: [react()],
@@ -19,10 +20,16 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ''),
           secure: true
         },
-        '/spoonacular' : {
-          target: URL,
+        '/spoonacular_ingredient_search' : {
+          target: ING_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/spoonacular/, '')        
+          rewrite: (path) => path.replace(/^\/spoonacular_ingredient_search/, '')        
+        },
+        '/spoonacular_id_search': {
+          target : ID_URL,
+          changeOrigin : true,
+          rewrite: (path) => path.replace(/^\/spoonacular_id_search\/(\d+)\/information/, '/recipes/$1/information'),
+
 
         }
     },

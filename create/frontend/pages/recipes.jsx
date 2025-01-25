@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 
-const apiURL = import.meta.env.VITE_SPOONACULAR_URL;
 const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
 export function Recipes() {
@@ -45,7 +44,7 @@ export function Recipes() {
             const selectedString = selected_ingredient_arr.join(",")
             console.log(selectedString)
 
-            const response = await axios.get('/spoonacular', {
+            const response = await axios.get('/spoonacular_ingredient_search', {
                 params: {
                     apiKey: apiKey,
                     ingredients: selectedString
@@ -55,6 +54,13 @@ export function Recipes() {
 
             console.log(response.data);
 
+            const recipe_result_id_arr = [];
+
+            response.data.map((item)=>{
+                recipe_result_id_arr.push(item.id);
+            });
+
+            console.log(recipe_result_id_arr);
 
         } catch (e) {
             console.log(e)
