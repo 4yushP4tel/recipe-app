@@ -10,6 +10,7 @@ export function Recipes() {
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [userID, setUserID] = useState(0);
     const [recipe_search, setRecipe_search] = useState([]);
+    const [search_res, setSearch_res] = useState(false)
 
     useEffect(() => {
         const getIngredients = async () => {
@@ -30,7 +31,6 @@ export function Recipes() {
         e.preventDefault()
 
         try {
-
             if (selectedIngredients.length === 0) {
                 alert("Please select some ingredients!")
                 return;
@@ -52,33 +52,31 @@ export function Recipes() {
             },
                 { withCredentials: true });
 
-
-
             const recipe_search_results = [];
 
-            response.data.map((item)=>{
+            response.data.map((item) => {
                 const missedIngredients = []
                 const usedIngredients = []
                 const missed_ing = item.missedIngredients;
-                missed_ing.map((missedIng)=>{
+                missed_ing.map((missedIng) => {
                     missedIngredients.push({
-                        "name" : missedIng.name,
+                        "name": missedIng.name,
                         "amount": missedIng.original
                     })
                 });
 
                 const used_ing = item.usedIngredients;
-                used_ing.map((usedIng)=>{
+                used_ing.map((usedIng) => {
                     usedIngredients.push({
-                        "name" : usedIng.name,
+                        "name": usedIng.name,
                         "amount": usedIng.original
                     })
                 });
 
                 recipe_search_results.push({
-                    "id": item.id, 
+                    "id": item.id,
                     "recipe_name": item.title,
-                    "image": item.image, 
+                    "image": item.image,
                     "missedIngredients": missedIngredients,
                     "usedIngredients": usedIngredients
 
@@ -91,6 +89,8 @@ export function Recipes() {
 
         } catch (e) {
             console.log(e)
+        } finally {
+            setSearch_res(true)
         }
 
     }
@@ -130,12 +130,68 @@ export function Recipes() {
                 </form>
             </div>
             <div className="search_results">
-                {
-                    recipe_search.map((search_result, index)=>{
-                        //write html table code here
-                    })
-                }
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipe</th>
+                            <th>Image</th>
+                            <th>Ingredients that you have</th>
+                            <th>Amount</th>
+                            <th>Ingredients that you don't have</th>
+                            <th>Amount</th>
+                            <th>Instructional Video</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {recipe_search.map((item, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{item.recipe_name}</td>
+                                    <td><img src={item.image} alt={item.recipe_name} width={"150px"} /></td>
+                                    <td>
+                                        <ul>
+                                            {item.usedIngredients.map((usedIng, index) => {
+                                                return (
+                                                    <li key={index}>{usedIng.name}</li>)
+                                            })}
 
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            {item.usedIngredients.map((usedIng, index) => {
+                                                return (
+                                                    <li key={index}>{usedIng.amount}</li>)
+                                            })}
+                                        </ul>
+                                    </td>
+
+                                    <td>
+                                        <ul>
+                                            {item.missedIngredients.map((missedIng, index) => {
+                                                return (
+                                                    <li key={index}>{missedIng.name}</li>)
+                                            })}
+
+                                        </ul>
+                                    </td>
+
+                                    <td>
+                                        <ul>
+                                            {item.missedIngredients.map((missedIng, index) => {
+                                                return (
+                                                    <li key={index}>{missedIng.amount}</li>)
+                                            })}
+                                        </ul>
+                                    </td>
+                                    <td>🎥</td>
+                                    <td><button>Save Recipe</button></td>
+                                </tr>)
+
+                        })}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
