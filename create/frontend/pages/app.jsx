@@ -7,7 +7,7 @@ import { ChefAI } from './chefai';
 import { Pantry } from './pantry';
 import { Recipes } from './recipes';
 import { Logout } from '../components/logout';
-import '../style/main.css'
+import '../style/main.css';
 import axios from 'axios'
 
 axios.defaults.withCredentials = true;

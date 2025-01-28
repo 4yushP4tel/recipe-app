@@ -188,7 +188,6 @@ export function Create_Account({ setStatus }) {
                         <button onClick={(event) => { event.preventDefault(); setVisible(!visible) }}>
                             {visible ? "🙉" : "🙈"}
                         </button>
-
                     </div>
                 </div>
 

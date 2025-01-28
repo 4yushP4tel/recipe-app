@@ -9,7 +9,7 @@ export function Recipes() {
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [userID, setUserID] = useState(0);
-    const [recipes, setRecipes] = useState([]);
+    const [recipe_search, setRecipe_search] = useState([]);
 
     useEffect(() => {
         const getIngredients = async () => {
@@ -52,15 +52,41 @@ export function Recipes() {
             },
                 { withCredentials: true });
 
-            console.log(response.data);
 
-            const recipe_result_id_arr = [];
+
+            const recipe_search_results = [];
 
             response.data.map((item)=>{
-                recipe_result_id_arr.push(item.id);
+                const missedIngredients = []
+                const usedIngredients = []
+                const missed_ing = item.missedIngredients;
+                missed_ing.map((missedIng)=>{
+                    missedIngredients.push({
+                        "name" : missedIng.name,
+                        "amount": missedIng.original
+                    })
+                });
+
+                const used_ing = item.usedIngredients;
+                used_ing.map((usedIng)=>{
+                    usedIngredients.push({
+                        "name" : usedIng.name,
+                        "amount": usedIng.original
+                    })
+                });
+
+                recipe_search_results.push({
+                    "id": item.id, 
+                    "image": item.image, 
+                    "missedIngredients": missedIngredients,
+                    "usedIngredients": usedIngredients
+
+
+                });
             });
 
-            console.log(recipe_result_id_arr);
+            console.log(recipe_search_results);
+            setRecipe_search(recipe_search_results);
 
         } catch (e) {
             console.log(e)
@@ -103,6 +129,11 @@ export function Recipes() {
                 </form>
             </div>
             <div className="search_results">
+                {
+                    recipe_search.map((search_result, index)=>{
+                        //write html table code here
+                    })
+                }
 
             </div>
         </div>
