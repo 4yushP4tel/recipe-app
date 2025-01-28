@@ -77,6 +77,7 @@ export function Recipes() {
 
                 recipe_search_results.push({
                     "id": item.id, 
+                    "recipe_name": item.title,
                     "image": item.image, 
                     "missedIngredients": missedIngredients,
                     "usedIngredients": usedIngredients
