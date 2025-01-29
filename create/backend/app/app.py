@@ -260,7 +260,29 @@ class Recipes(db.Model):
 
 @app.route("/recipes", methods = ['POST'])
 def save_recipes():
-    pass
+    data = request.get_json()
+    user_id = data.get('user_id')
+    recipe_name = data.get('recipe_name')
+    id_from_api = data.get('recipe_id_from_api')
+
+    try:
+        new_recipe = Ingredient(recipe_name=recipe_name, user_id=user_id, added_at = datetime.now(), id_from_api = id_from_api)
+        db.session.add(new_recipe)
+        db.session.commit()
+        return jsonify({
+            "message": "recipe saved successfully",
+            "user_id": user_id, 
+            "recipe_name": recipe_name,
+            "id_from_api": id_from_api
+
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "error": e
+        }), 400
+
+
 
 @app.route("/recipes", methods=['GET'])
 def view_recipes():
