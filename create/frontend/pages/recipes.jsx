@@ -87,6 +87,7 @@ export function Recipes() {
 
 
                 });
+
             });
 
             console.log(recipe_search_results);
@@ -101,12 +102,28 @@ export function Recipes() {
 
     }
 
-    const handleSave = async (e) => {
-        e.preventDefault();
+    const handleSave = async ( id, name, index) => {
 
         try {
+            await axios.post("/api/recipes", {
+                "user_id" : userId,
+                "id_from_api": id,
+                "recipe_name": name,
+            }, {withCredentials:true});
 
-        } catch {
+            alert(`${name} has been saved`)
+
+            const newRecipes = [...recipe_search];
+            newRecipes.splice(index,1);
+            setRecipe_search(newRecipes)
+
+            
+
+
+
+
+        } catch (error){
+            console.log(error);
 
         }
     }
@@ -247,7 +264,7 @@ export function Recipes() {
                                         </ul>
                                     </td>
                                     <td>🎥</td>
-                                    <td><button>Save Recipe</button></td>
+                                    <td><button onClick={()=>handleSave(item.id, item.recipe_name, index)}>Save Recipe</button></td>
                                 </tr>)
 
                         })}

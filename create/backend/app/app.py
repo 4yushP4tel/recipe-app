@@ -263,10 +263,10 @@ def save_recipes():
     data = request.get_json()
     user_id = data.get('user_id')
     recipe_name = data.get('recipe_name')
-    id_from_api = data.get('recipe_id_from_api')
+    id_from_api = data.get('id_from_api')
 
     try:
-        new_recipe = Ingredient(recipe_name=recipe_name, user_id=user_id, added_at = datetime.now(), id_from_api = id_from_api)
+        new_recipe = Recipes(recipe_name=recipe_name, user_id=user_id, added_at = datetime.now(), id_from_api = id_from_api)
         db.session.add(new_recipe)
         db.session.commit()
         return jsonify({
@@ -279,7 +279,7 @@ def save_recipes():
     except Exception as e:
         db.session.rollback()
         return jsonify({
-            "error": e
+            "error": str(e)
         }), 400
 
 
