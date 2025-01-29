@@ -10,7 +10,8 @@ export function Recipes() {
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [recipe_search, setRecipe_search] = useState([]);
     const [view_res, setView_res] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [userId, setUserID] = useState(0);
 
 
 
@@ -126,15 +127,69 @@ export function Recipes() {
                         options={ingredients.map(ingredient => ({
                             value: ingredient.id,
                             label: ingredient.ingredient_name,
+
                         }))}
                         value={selectedIngredients}
                         onChange={setSelectedIngredients}
                         placeholder="Select Ingredients"
+                        menuPortalTarget={null} // Disable portal to render dropdown inside the container
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                                boxShadow: "none",
+                                "&:hover": {
+                                    borderColor: "#888",
+                                },
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                                position: 'relative',
+                                marginTop: "4px",
+                                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                            }),
+                            option: (base, { isFocused, isSelected }) => ({
+                                ...base,
+                                backgroundColor: isSelected
+                                    ? "#007bff"
+                                    : isFocused
+                                        ? "#f0f0f0"
+                                        : "white",
+                                color: isSelected ? "white" : "black",
+                                fontSize: '17px',
+                                padding: '5px'
+                            }),
+                            multiValue: (base) => ({
+                                ...base,
+                                backgroundColor: "#e0e0e0",
+                                borderRadius: "4px",
+                                fontSize: '20px'
+                            }),
+                            multiValueLabel: (base) => ({
+                                ...base,
+                                color: "#333",
+                            }),
+                            multiValueRemove: (base) => ({
+                                ...base,
+                                color: "#666",
+                                "&:hover": {
+                                    backgroundColor: "#ccc",
+                                    color: "#333",
+                                },
+                            }),
+                        }}
+
+
+
+
                     />
                     <button type="submit">Search Recipes</button>
                 </form>
             </div>
-            {loading && <div className="chef_emoji.bouncing">One moment as we find amazing recipes...</div>}
+            {loading && <div className="search_wait_message">One moment as we find amazing recipes...</div>}
             {view_res && (<div className="search_results">
                 <table>
                     <thead>

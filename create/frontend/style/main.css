@@ -339,12 +339,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: none;
     box-sizing: border-box;
 }
 
 .signedin_container{
-    padding-top: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -402,7 +402,7 @@ body {
 }
 
 .pantry_page {
-    padding: 20px;
+    padding: 10px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -664,24 +664,17 @@ body {
     max-width: 1200px;
     margin-bottom: 150px;
     overflow: auto;
-}
 
+}
 
 .top_message {
     width: 100%;
     text-align: center;
 }
 
-.top_message h2 {
-    font-size: 2rem;
-    color: #202334;
-    margin-bottom: 20px;
-}
-
 .mode_buttons {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 20px;
     flex-wrap: wrap;
 }
@@ -690,7 +683,7 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 .mode_buttons label {
@@ -712,32 +705,20 @@ body {
     background-color: #202334;
 }
 
-.view_section {
-    width: 100%;
-    text-align: center;
-}
-
-.view_section h3 {
-    font-size: 1.8rem;
-    color: #202334;
-    margin-top: 20px;
-}
-
-.view_section p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-top: 10px;
-}
 
 .search_section {
     padding: 30px 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 40px auto;
     max-width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: auto;
+    max-height: auto; 
+    overflow: visible;
+    transition: min-height 0.3s ease;
+
 }
 
 .search_section h3 {
@@ -783,6 +764,10 @@ body {
     cursor: not-allowed;
 }
 
+.search_results{
+    margin-top: 30px;
+}
+
 .search_results table {
     width: 100%;
     border-collapse: collapse;
@@ -792,8 +777,8 @@ body {
 }
 
 .search_results th {
-    background-color: #f2f2f2;
-    color: #333;
+    background-color: rgb(61, 57, 57);
+    color: rgb(216, 212, 212);
     padding: 12px;
     text-align: left;
     font-size: 16px;
@@ -864,6 +849,11 @@ body {
 
 .search_results td:last-child, .search_results th:last-child {
     border-right: none; 
+}
+
+.search_wait_message{
+    padding: 10px;
+    font-size: 18px;
 }
 
 @media (max-width: 768px) {
