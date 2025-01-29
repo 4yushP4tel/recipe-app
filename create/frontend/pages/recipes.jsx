@@ -8,9 +8,11 @@ export function Recipes() {
     const [mode, setMode] = useState("view");
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [userID, setUserID] = useState(0);
     const [recipe_search, setRecipe_search] = useState([]);
-    const [search_res, setSearch_res] = useState(false)
+    const [view_res, setView_res] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+
 
     useEffect(() => {
         const getIngredients = async () => {
@@ -31,6 +33,8 @@ export function Recipes() {
         e.preventDefault()
 
         try {
+            setView_res(false)
+            setLoading(true)
             if (selectedIngredients.length === 0) {
                 alert("Please select some ingredients!")
                 return;
@@ -90,7 +94,8 @@ export function Recipes() {
         } catch (e) {
             console.log(e)
         } finally {
-            setSearch_res(true)
+            setView_res(true)
+            setLoading(false)
         }
 
     }
@@ -129,7 +134,8 @@ export function Recipes() {
                     <button type="submit">Search Recipes</button>
                 </form>
             </div>
-            <div className="search_results">
+            {loading && <div className="chef_emoji.bouncing">One moment as we find amazing recipes...</div>}
+            {view_res && (<div className="search_results">
                 <table>
                     <thead>
                         <tr>
@@ -192,7 +198,7 @@ export function Recipes() {
                         })}
                     </tbody>
                 </table>
-            </div>
+            </div>)}
         </div>
     );
 
