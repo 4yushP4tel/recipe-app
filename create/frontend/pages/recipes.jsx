@@ -23,7 +23,16 @@ export function Recipes() {
                 setIngredients(response.data.ingredients);
                 setUserID(response.data.user_id)
 
-                
+                const saved_response = await axios.get("/api/recipes", {withCredentials: true})
+                const all_saved = saved_response.data.saved_recipes;
+                const id_arr = []
+                all_saved.map((item)=>{
+                    id_arr.push(item.id_from_api);
+                })
+                console.log(id_arr);
+
+
+
             } catch (error) {
                 console.log(error);
             }
