@@ -234,7 +234,7 @@ def get_response():
     ingredients = Ingredient.query.filter_by(user_id=user_id).all()
     ingreidents_list = [ingredient.ingredient_name for ingredient in ingredients]
     ingredients_str = ", ".join(ingreidents_list)
-    prompt = f"{prompt} Ingredients in the pantry are: {ingredients_str}."
+    prompt = f"{prompt} Ingredients in the pantry are: {ingredients_str}. If you get something not related to food. Just let the user know that you only discuss about food."
 
     chat_history = session['chat_history']
     response = get_openai_response(prompt, chat_history)
@@ -286,7 +286,24 @@ def save_recipes():
 
 @app.route("/recipes", methods=['GET'])
 def view_recipes():
-    pass
+    if 'user_id' not in session:
+        return jsonify({
+            "error": " No user in session"
+        }), 400
+    user_id = session['user_id']
+    recipes = Recipes.query.filter_by(user_id=user_id).all()
+    saved_recipes = [{
+                    "ingredient_name": recipe.recipe_name,
+                    "id_from_api": recipe.id_from_api,
+                    "id" : recipe.id
+                    } for recipe in recipes]
+    
+    return jsonify({
+        "saved_recipes" : saved_recipes,
+        "user_id": user_id
+    }), 201
+
+
 
 @app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
 def delete_recipe():

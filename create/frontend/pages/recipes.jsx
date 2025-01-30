@@ -12,6 +12,7 @@ export function Recipes() {
     const [view_res, setView_res] = useState(false);
     const [loading, setLoading] = useState(false);
     const [userId, setUserID] = useState(0);
+    const [saved, setSaved] = useState([])
 
 
 
@@ -21,6 +22,8 @@ export function Recipes() {
                 const response = await axios.get("/api/pantry", { withCredentials: true });
                 setIngredients(response.data.ingredients);
                 setUserID(response.data.user_id)
+
+                
             } catch (error) {
                 console.log(error);
             }
@@ -37,10 +40,12 @@ export function Recipes() {
             setView_res(false)
             setLoading(true)
             if (selectedIngredients.length === 0) {
-                alert("Please select some ingredients!")
+                alert("Please select some ingredients!");
+                setLoading(false);
                 return;
             } else if (selectedIngredients.length > 10) {
-                alert("You have choosen too many ingredients! Please select fewer than 10.")
+                alert("You have choosen too many ingredients! Please select fewer than 10.");
+                setLoading(false);
                 return;
             }
             const selected_ingredient_arr = selectedIngredients.map(
@@ -87,6 +92,8 @@ export function Recipes() {
 
 
                 });
+                setView_res(true)
+                setLoading(false)
 
             });
 
@@ -95,10 +102,7 @@ export function Recipes() {
 
         } catch (e) {
             console.log(e)
-        } finally {
-            setView_res(true)
-            setLoading(false)
-        }
+        } 
 
     }
 
@@ -117,11 +121,7 @@ export function Recipes() {
             newRecipes.splice(index,1);
             setRecipe_search(newRecipes)
 
-            
-
-
-
-
+        
         } catch (error){
             console.log(error);
 
