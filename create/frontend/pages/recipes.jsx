@@ -17,7 +17,7 @@ export function Recipes() {
 
 
     useEffect(() => {
-        const getIngredients = async () => {
+        const getInfo = async () => {
             try {
                 const response = await axios.get("/api/pantry", { withCredentials: true });
                 setIngredients(response.data.ingredients);
@@ -31,13 +31,35 @@ export function Recipes() {
                 })
                 console.log(id_arr);
 
+                const saved_json = []
+                id_arr.map(async (id)=>{
+                    const id_response = await axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
+                    const info = id_response.data;
+                    const name = info.title;
+                    const image = info.image;
+                    const ingredient_info = info.extendedIngredients;
+                    const ingredient_arr = [];
+                    ingredient_info.map((item)=>{
+                        ingredient_arr.push({
+                            ingredient_name : item.name,
+                            amount: item.original
+                        });
+                    });
+                    saved_json.push({
+                        recipe_name: name,
+                        image: image,
+                        ingredients: ingredient_arr
+                    });
+                });
 
+                setSaved(saved_json);
+                console.log(saved);
 
             } catch (error) {
                 console.log(error);
             }
         };
-        getIngredients();
+        getInfo();
     }, [])
 
 

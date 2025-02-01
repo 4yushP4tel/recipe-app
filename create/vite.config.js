@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
         '/spoonacular_id_search': {
           target : ID_URL,
           changeOrigin : true,
-          rewrite: (path) => path.replace(/^\/spoonacular_id_search\/(\d+)\/information/, '/recipes/$1/information'),
+          rewrite: (path) => path.replace(/^\/spoonacular_id_search/, ''),
 
 
         }
