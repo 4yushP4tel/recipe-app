@@ -11,10 +11,9 @@ export function Recipes() {
     const [recipe_search, setRecipe_search] = useState([]);
     const [view_res, setView_res] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [gettingSaved, setGettingSaved] = useState(true);
     const [userId, setUserID] = useState(0);
     const [saved, setSaved] = useState([])
-
-
 
     useEffect(() => {
         const getInfo = async () => {
@@ -23,6 +22,7 @@ export function Recipes() {
                 setIngredients(response.data.ingredients);
                 setUserID(response.data.user_id)
 
+                setGettingSaved(true);
                 const saved_response = await axios.get("/api/recipes", {withCredentials: true})
                 const all_saved = saved_response.data.saved_recipes;
                 const id_arr = []
@@ -31,35 +31,32 @@ export function Recipes() {
                 })
                 console.log(id_arr);
 
-                const saved_json = []
-                id_arr.map(async (id)=>{
-                    const id_response = await axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
-                    const info = id_response.data;
-                    const name = info.title;
-                    const image = info.image;
-                    const ingredient_info = info.extendedIngredients;
-                    const ingredient_arr = [];
-                    ingredient_info.map((item)=>{
-                        ingredient_arr.push({
-                            ingredient_name : item.name,
-                            amount: item.original
-                        });
-                    });
-                    saved_json.push({
-                        recipe_name: name,
-                        image: image,
-                        ingredients: ingredient_arr
-                    });
-                });
-
+                const saved_json = await Promise.all(
+                    id_arr.map(async (id)=>{
+                        const id_response = await axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
+                        const info = id_response.data;
+    
+                        return {
+                            recipe_name: info.title,
+                            image: info.image,
+                            ingredients: info.extendedIngredients.map((item)=>({
+                                ingredient_name : item.name,
+                                amount : item.original
+                            }))
+    
+                        };
+                    })
+                );
+               
                 setSaved(saved_json);
-                console.log(saved);
 
             } catch (error) {
                 console.log(error);
+            } finally {
+                setGettingSaved(false);
             }
         };
-        getInfo();
+        getInfo(); 
     }, [])
 
 
@@ -159,9 +156,54 @@ export function Recipes() {
         }
     }
 
+    const savedLoading = 
+    
+    <div>
+        <p className="search_wait_message" >Loading saved recipes...</p>
+    </div>
+
     const view_section = (
         <div className="view_section">
-            view
+            <h3>View and manage your saved recipes</h3>
+            {!gettingSaved ? (<table>
+                <thead>
+                    <tr>
+                        <th>Recipe</th>
+                        <th>Image</th>
+                        <th>Ingredients</th>
+                        <th>Amount</th>
+                        <th>Instructional Video</th>
+                        <th>Action</th>
+                    </tr>
+                    {
+                        saved.map((item, index) => {
+                            return(
+                                <tr key={index}>
+                                    <td>{item.recipe_name}</td>
+                                    <td><img src={item.image} alt="recipe_image" width={"150px"}/></td>
+                                    <td>
+                                        {item.ingredients.map((ingredient, index) =>{
+                                            return(
+                                                <ul key={index}>{ingredient.ingredient_name}</ul>
+                                            );
+                                        })}
+                                    </td>
+                                    <td>
+                                        {item.ingredients.map((ingredient, index) =>{
+                                            return(
+                                                <ul key={index}>{ingredient.amount}</ul>
+                                            );
+                                        })}
+                                    </td>
+                                    <td>🎥</td>
+                                    <td><button>Remove from Saved</button></td>
+
+                                </tr>
+                            );
+                        })
+                    }
+                </thead>
+            </table>) : savedLoading}
         </div>
     );
 
