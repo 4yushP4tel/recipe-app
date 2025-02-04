@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify, session, redirect
+from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -33,6 +33,7 @@ db_password = os.getenv('dbpassword')
 db_name = os.getenv('dbname')
 db_table_name1 = os.getenv('db_table_name1')
 db_table_name2 = os.getenv('db_table_name2')
+db_table_name3 = os.getenv("db_table_name3")
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_host}/{db_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -233,7 +234,7 @@ def get_response():
     ingredients = Ingredient.query.filter_by(user_id=user_id).all()
     ingreidents_list = [ingredient.ingredient_name for ingredient in ingredients]
     ingredients_str = ", ".join(ingreidents_list)
-    prompt = f"{prompt} Ingredients in the pantry are: {ingredients_str}."
+    prompt = f"{prompt} Ingredients in the pantry are: {ingredients_str}. If you get something not related to food. Just let the user know that you only discuss about food."
 
     chat_history = session['chat_history']
     response = get_openai_response(prompt, chat_history)
@@ -244,6 +245,69 @@ def get_response():
     return jsonify({"response_message": response,
                     "response_history": chat_history,
                     "user_name": user_name}), 200
+
+#recipes routes
+
+class Recipes(db.Model):
+    __tablename__ = db_table_name3
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
+    added_at = db.Column(db.DateTime, default = datetime.now)
+    id_from_api = db.Column(db.Integer)
+
+
+
+@app.route("/recipes", methods = ['POST'])
+def save_recipes():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    recipe_name = data.get('recipe_name')
+    id_from_api = data.get('id_from_api')
+
+    try:
+        new_recipe = Recipes(recipe_name=recipe_name, user_id=user_id, added_at = datetime.now(), id_from_api = id_from_api)
+        db.session.add(new_recipe)
+        db.session.commit()
+        return jsonify({
+            "message": "recipe saved successfully",
+            "user_id": user_id, 
+            "recipe_name": recipe_name,
+            "id_from_api": id_from_api
+
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "error": str(e)
+        }), 400
+
+
+
+@app.route("/recipes", methods=['GET'])
+def view_recipes():
+    if 'user_id' not in session:
+        return jsonify({
+            "error": " No user in session"
+        }), 400
+    user_id = session['user_id']
+    recipes = Recipes.query.filter_by(user_id=user_id).all()
+    saved_recipes = [{
+                    "ingredient_name": recipe.recipe_name,
+                    "id_from_api": recipe.id_from_api,
+                    "id" : recipe.id
+                    } for recipe in recipes]
+    
+    return jsonify({
+        "saved_recipes" : saved_recipes,
+        "user_id": user_id
+    }), 201
+
+
+
+@app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
+def delete_recipe():
+    pass
 
 if __name__ == "__main__":
     app.run(debug=True)

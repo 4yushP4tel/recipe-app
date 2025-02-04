@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../style/main.css'
 
-export function Pantry(){
+export function Pantry() {
     const [items, setItems] = useState([]);
     const [ingredient, setIngredient] = useState("");
     const [username, setUserName] = useState("");
@@ -11,14 +11,14 @@ export function Pantry(){
 
     useEffect(() => {
         const getData = async () => {
-            try{
+            try {
                 const response = await axios.get("/api/pantry",
-                    {withCredentials: true});
+                    { withCredentials: true });
 
                 setUserName(response.data.user_name);
                 setItems(response.data.ingredients);
                 setUserId(response.data.user_id);
-            } catch (error){
+            } catch (error) {
                 console.error("Error getting username:", error);
             }
         };
@@ -29,64 +29,71 @@ export function Pantry(){
     const handleAdd = async (e) => {
         e.preventDefault();
 
-        if (ingredient.trim()){
-            try{
+        if (ingredient.trim()) {
+
+            if (items.some(item => item.ingredient_name.toLowerCase() === ingredient.trim().toLowerCase())) {
+                alert("This ingredient is already in your pantry");
+                return;
+            }
+            try {
                 const response = await axios.post("/api/pantry", {
                     ingredient_name: ingredient.trim(),
-                    user_id : userId,
-                }, 
-                {withCredentials: true});
+                    user_id: userId,
+                },
+                    { withCredentials: true });
 
                 const { ingredient_id, ingredient_name } = response.data;
                 setItems([...items, { id: ingredient_id, ingredient_name: ingredient_name }]);
                 setIngredient("");
-            } catch (error){
+            } catch (error) {
                 console.error("Error adding ingredient:", error);
 
-        }} else{ alert("Please enter an ingredient");
-        } 
+            }
+        } else {
+            alert("Please enter an ingredient");
+        }
     };
 
     const handleRemove = async (itemId) => {
-        try{
+        try {
             await axios.delete(`/api/pantry/${itemId}`,
-                {withCredentials: true});
+                { withCredentials: true });
             setItems(items.filter((item) => item.id !== itemId));
-        } catch (error){
+        } catch (error) {
             console.error('Error removing item:', error);
         }
     }
 
     const emptyPantry = <div className="table_container">
-                            <h1>{username}'s Pantry</h1>
-                            <p>Your pantry is empty. Add ingredients to get started!</p>
-                        </div>
+        <h1>{username}'s Pantry</h1>
+        <p>Your pantry is empty. Add ingredients to get started!</p>
+    </div>
 
-    const non_emptyPantry = <div className="table_container"> 
-                                <h1>{username}'s Pantry</h1>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Ingredient</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {items.map((item) =>(
-                                            <tr key={item.id}>
-                                                <td>{item.ingredient_name}</td>
-                                                <td>
-                                                    <button onClick={() => handleRemove(item.id)}>Remove</button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                    </tbody>
-                                </table>
-                            </div>
+    const non_emptyPantry = <div className="table_container">
+        <h1>{username}'s Pantry</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {items.map((item) => (
+                    <tr key={item.id}>
+                        <td>{item.ingredient_name}</td>
+                        <td>
+                            <button onClick={() => handleRemove(item.id)}>Remove</button>
+                        </td>
+                    </tr>
+                )
+                )}
+            </tbody>
+        </table>
+    </div>
 
 
-    return(
+    return (
         <div className="pantry_page">
             <div className="top_message">
                 <h2>What's in my pantry?</h2>
@@ -98,8 +105,8 @@ export function Pantry(){
                     <form onSubmit={handleAdd}>
                         <input
                             type="text"
-                            id="pantry" 
-                            name="pantry" 
+                            id="pantry"
+                            name="pantry"
                             placeholder="Enter item"
                             value={ingredient}
                             onChange={(e) => setIngredient(e.target.value)}
@@ -107,7 +114,7 @@ export function Pantry(){
                         <button type="submit">Add Ingredient</button>
                     </form>
                 </div>
-                {items.length > 0 ? non_emptyPantry : emptyPantry 
+                {items.length > 0 ? non_emptyPantry : emptyPantry
                 }
 
             </div>

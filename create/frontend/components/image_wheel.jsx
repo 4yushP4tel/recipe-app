@@ -11,9 +11,9 @@ import food5 from '../images/food5.png'
 
 
 
-export function Wheel(){
+export function Wheel() {
     const images = [food1, food2, food3, food4, food5]
-    return(
+    return (
         <div className="imagewheel">
             <Swiper
                 effect={'coverflow'}
@@ -34,7 +34,7 @@ export function Wheel(){
                     clickable: true,
                 }}
                 modules={[EffectCoverflow, Navigation]}
-                autoplay = {false}
+                autoplay={false}
             >
 
                 {images.map((image, index) => (
@@ -53,7 +53,7 @@ export function Wheel(){
                     </div>
                 </div>
             </Swiper>
-            
+
 
         </div>
     );

@@ -1,7 +1,7 @@
-import React , {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export function ChefAI(){
+export function ChefAI() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [user_name, setUserName] = useState("");
@@ -9,11 +9,11 @@ export function ChefAI(){
 
     useEffect(() => {
         const getuserName = async () => {
-            try{
+            try {
                 const response = await axios.get("/api/check_auth",
-                    {withCredentials: true});
+                    { withCredentials: true });
                 setUserName(response.data.user_name);
-            } catch (error){
+            } catch (error) {
                 console.error("Error getting username:", error);
             }
         }; getuserName();
@@ -22,29 +22,29 @@ export function ChefAI(){
     const handleSendMessage = async (e) => {
         e.preventDefault();
 
-        if (input.trim()){
-            const newMessage = {role: "user", content: input};
+        if (input.trim()) {
+            const newMessage = { role: "user", content: input };
             setMessages((prevMessages) => [...prevMessages, newMessage]);
             setInput("");
             setIsLoading(true);
-            try{
+            try {
                 const response = await axios.post("/api/chefai",
                     {
                         prompt: input,
                         user_name: user_name,
                     },
-                    {withCredentials: true});
-                const assistantMessage = {role: "assistant", content: response.data.response_message};
-                
+                    { withCredentials: true });
+                const assistantMessage = { role: "assistant", content: response.data.response_message };
+
                 setMessages((prevMessages) => [...prevMessages, assistantMessage]);
 
-            } catch (error){
+            } catch (error) {
                 console.error("Error sending message:", error);
-            } finally{
+            } finally {
                 setIsLoading(false);
             }
 
-        } else{
+        } else {
             alert("Please enter a message");
         }
 
@@ -52,7 +52,7 @@ export function ChefAI(){
 
 
 
-    return(
+    return (
         <div className="chefai_page">
             <div className="top_message">
                 <h2>Chat With ChefAI 🧑‍🍳</h2>
@@ -73,7 +73,7 @@ export function ChefAI(){
                 </div>
 
                 <div className="chat_input_container">
-                    <form  onSubmit={handleSendMessage}>
+                    <form onSubmit={handleSendMessage}>
                         <textarea
                             id="input_message"
                             value={input}
@@ -84,7 +84,7 @@ export function ChefAI(){
 
                         </textarea>
 
-                        <button type="submit" disabled = {isLoading}>Send</button>
+                        <button type="submit" disabled={isLoading}>Send</button>
                     </form>
                 </div>
                 <p className={`chef_emoji ${isLoading ? "bouncing" : ""}`}>🧑‍🍳</p>

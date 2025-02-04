@@ -1,8 +1,8 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export function Signin_Box( {setStatus} ){
+export function Signin_Box({ setStatus }) {
     const [visible, setVisible] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -23,21 +23,21 @@ export function Signin_Box( {setStatus} ){
         try {
             console.log("Login Request Starting")
             const response = await axios.post("/api/login", {
-                    email: formData.email,
-                    password: formData.password
-                }, 
-                { withCredentials: true}
+                email: formData.email,
+                password: formData.password
+            },
+                { withCredentials: true }
             );
 
             console.log(`Before 200 status, Status: ${response.status}`);
 
-        if(response.status === 200){
-            const authResponse = await axios.get("/api/check_auth", {withCredentials: true});
-            const authStatus = authResponse.data.auth_status;
-            setStatus(authStatus);
-            navigate("/");
-        }
-            
+            if (response.status === 200) {
+                const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+                const authStatus = authResponse.data.auth_status;
+                setStatus(authStatus);
+                navigate("/");
+            }
+
         } catch (err) {
             if (err.response) {
                 setError('Email and Password do not match');
@@ -49,18 +49,18 @@ export function Signin_Box( {setStatus} ){
         }
     };
 
-    
+
     return (
         <div className="signincontainer">
-            
+
             <h2>Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <div className='inputfield'>
                     <label className='signuplabels'>Email</label>
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         name='email'
-                        value = {formData.email}
+                        value={formData.email}
                         onChange={handleInputChange}
                         required
                     />
@@ -68,16 +68,16 @@ export function Signin_Box( {setStatus} ){
 
                 <div className='inputfield'>
                     <label className='signuplabels'>Password</label>
-                    <input 
-                        type={visible ? "text": "password"}
+                    <input
+                        type={visible ? "text" : "password"}
                         name='password'
                         value={formData.password}
                         onChange={handleInputChange}
                         required
                     />
                     <div className='visibility'>
-                        <button onClick={(event)=> {event.preventDefault();setVisible(!visible)}}>
-                        {visible ? "🙉": "🙈"}
+                        <button onClick={(event) => { event.preventDefault(); setVisible(!visible) }}>
+                            {visible ? "🙉" : "🙈"}
                         </button>
 
                     </div>
@@ -93,7 +93,7 @@ export function Signin_Box( {setStatus} ){
     );
 }
 
-export function Create_Account({setStatus}){
+export function Create_Account({ setStatus }) {
     const [visible, setVisible] = useState(false)
 
     const [formData, setFormData] = useState({
@@ -127,16 +127,16 @@ export function Create_Account({setStatus}){
                 email: formData.email,
                 password: formData.password,
                 confirm_password: formData.confirm_password
-            }, {withCredentials: true});
+            }, { withCredentials: true });
 
-        if(response.status === 201){
-            setSuccess(response.data.message);
-            setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
-            const authResponse = await axios.get("/api/check_auth", {withCredentials: true});
-            const authStatus = authResponse.data.auth_status;
-            setStatus(authStatus);
-            navigate("/");
-        }
+            if (response.status === 201) {
+                setSuccess(response.data.message);
+                setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
+                const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+                const authStatus = authResponse.data.auth_status;
+                setStatus(authStatus);
+                navigate("/");
+            }
 
         } catch (err) {
             if (err.response) {
@@ -148,57 +148,56 @@ export function Create_Account({setStatus}){
         }
     };
 
-    return(
+    return (
         <div className="create_acc_container">
             <h2>Create an Account</h2>
             <form onSubmit={handleSubmit}>
                 <div className='inputfield'>
                     <label className='signuplabels'>Username</label>
                     <input
-                        type = "text" 
-                        value = {formData.user_name}
+                        type="text"
+                        value={formData.user_name}
                         name='user_name'
-                        onChange = {handleInputChange}
+                        onChange={handleInputChange}
                         required
                     />
                 </div>
                 <div className='inputfield'>
                     <label className='signuplabels'>Email</label>
-                    <input 
-                        type = "email" 
-                        value = {formData.email}
+                    <input
+                        type="email"
+                        value={formData.email}
                         name='email'
-                        onChange = {handleInputChange}
+                        onChange={handleInputChange}
                         required
                     />
                 </div>
 
                 <div className='inputfield'>
                     <label className='signuplabels'>Password</label>
-                    <input 
-                        type = {visible ? "text": "password"}
-                        value = {formData.password}
+                    <input
+                        type={visible ? "text" : "password"}
+                        value={formData.password}
                         name='password'
-                        onChange = {handleInputChange}
+                        onChange={handleInputChange}
                         minLength={8}
                         maxLength={49}
                         required
                     />
                     <div className='visibility'>
-                        <button onClick={(event)=> {event.preventDefault();setVisible(!visible)}}>
-                        {visible ? "🙉": "🙈"}
+                        <button onClick={(event) => { event.preventDefault(); setVisible(!visible) }}>
+                            {visible ? "🙉" : "🙈"}
                         </button>
-
                     </div>
                 </div>
 
                 <div className='inputfield'>
                     <label className='signuplabels'>Confirm Password</label>
-                    <input 
-                        type = "password" 
+                    <input
+                        type="password"
                         name='confirm_password'
-                        value = {formData.confirm_password}
-                        onChange = {handleInputChange}
+                        value={formData.confirm_password}
+                        onChange={handleInputChange}
                         required
                     />
                 </div>
@@ -215,8 +214,8 @@ export function Create_Account({setStatus}){
     );
 }
 
-export function Signup_Google_Box(){
-    return(
+export function Signup_Google_Box() {
+    return (
         <div className="Google_container">
             <button className='method-buttons'>Sign in with Google</button>
         </div>
