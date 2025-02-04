@@ -26,17 +26,21 @@ export function Recipes() {
                 const saved_response = await axios.get("/api/recipes", {withCredentials: true})
                 const all_saved = saved_response.data.saved_recipes;
                 const id_arr = []
-                all_saved.map((item)=>{
+                const db_id_arr = []
+                all_saved.forEach((item)=>{
                     id_arr.push(item.id_from_api);
+                    db_id_arr.push(item.id);
+
                 })
                 console.log(id_arr);
 
                 const saved_json = await Promise.all(
-                    id_arr.map(async (id)=>{
-                        const id_response = await axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
+                    id_arr.map((id, index)=>{
+                        const id_response =  axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
                         const info = id_response.data;
     
                         return {
+                            id: db_id_arr[index],
                             recipe_name: info.title,
                             image: info.image,
                             ingredients: info.extendedIngredients.map((item)=>({
@@ -156,9 +160,18 @@ export function Recipes() {
         }
     }
 
-    const savedLoading = 
-    
-    <div>
+    const handleRemoveSave = async (itemId) =>{
+        try{
+            await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
+            setSaved(saved_recipes.filter((recipe) => recipe.id !== itemId));
+
+        } catch (error){
+            console.log(error);
+        }
+
+    }
+
+    const savedLoading =  <div>
         <p className="search_wait_message" >Loading saved recipes...</p>
     </div>
 
@@ -176,9 +189,9 @@ export function Recipes() {
                         <th>Action</th>
                     </tr>
                     {
-                        saved.map((item, index) => {
+                        saved.map((item) => {
                             return(
-                                <tr key={index}>
+                                <tr key={item.id}>
                                     <td>{item.recipe_name}</td>
                                     <td><img src={item.image} alt="recipe_image" width={"150px"}/></td>
                                     <td>
@@ -196,7 +209,7 @@ export function Recipes() {
                                         })}
                                     </td>
                                     <td>🎥</td>
-                                    <td><button>Remove from Saved</button></td>
+                                    <td><button onClick={()=> handleRemoveSave(item.id)}>Remove from Saved</button></td>
 
                                 </tr>
                             );

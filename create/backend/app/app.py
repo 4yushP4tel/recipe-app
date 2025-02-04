@@ -306,8 +306,21 @@ def view_recipes():
 
 
 @app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
-def delete_recipe():
-    pass
+def delete_recipe(recipe_id):
+    user_id = session['user_id']
+    recipe = Recipes.query.filter_by(id=recipe_id, user_id=user_id).first()
+    if not recipe:
+        return jsonify({
+            "message": "Failed to delete recipe from saved"
+        }), 404
+    db.session.delete(recipe)
+    db.session.commit()
+
+    return jsonify({
+        "message": "recipe successfully removed from saved"
+    }), 200
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
