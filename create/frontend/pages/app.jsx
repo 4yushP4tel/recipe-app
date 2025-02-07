@@ -42,7 +42,7 @@ export function App() {
 
             <div className='chosen_page'>
                 <Routes>
-                    <Route path='*' element={<NotFound />} />
+                    <Route path='*' element={<Navigate to={"/"} replace/>} />
                     <Route path="/" element={status ? <HomepageSignedIn /> : <HomepageSignedOut />} />
                     <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup setStatus={setStatus} />} />
                     <Route path="/logout" element={<Logout setStatus={setStatus} />} />
