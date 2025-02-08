@@ -29,8 +29,6 @@ export default defineConfig(({ mode }) => {
           target : ID_URL,
           changeOrigin : true,
           rewrite: (path) => path.replace(/^\/spoonacular_id_search/, ''),
-
-
         }
     },
   },
