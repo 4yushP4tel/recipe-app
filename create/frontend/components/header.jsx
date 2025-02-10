@@ -9,13 +9,17 @@ export function Header({ setStatus }) {
         <header className="navbar">
             <div className="left_nav">
                 <img src={food_image} alt="food_icon" />
-                <h1 className="logo"> What's 4 Dinner</h1>
+                <Link to={"/homesignedin"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h1 className="logo"
+                        style={{
+                            transition: 'transform 0.3s ease-in-out',
+                            transform:'scale(1.1)',
+                        }}
+                    > What's 4 Dinner</h1>
+                </Link>
             </div>
 
             <nav className="nav-links">
-                <Link to={"/homesignedin"}>
-                    <button>Home</button>
-                </Link>
                 <Link to={"/recipes"}>
                     <button>Find Recipes</button>
                 </Link>
