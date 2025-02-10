@@ -11,7 +11,7 @@ export function HomepageSignedOut() {
                 <img src={food_image} alt="food_icon" />
                 <h1>What's 4 Dinner</h1>
             </div>
-            <Wheel />
+            <Slideshow />
             <div className='bottom-content'>
                 <div className='text-left'>
                     <h2>Welcome to What's 4 Dinner</h2>

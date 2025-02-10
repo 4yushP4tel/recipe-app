@@ -20,48 +20,53 @@ export function Recipes() {
             try {
                 const response = await axios.get("/api/pantry", { withCredentials: true });
                 setIngredients(response.data.ingredients);
-                setUserID(response.data.user_id)
-
+                setUserID(response.data.user_id);
+    
                 setGettingSaved(true);
-                const saved_response = await axios.get("/api/recipes", {withCredentials: true})
+                const saved_response = await axios.get("/api/recipes", { withCredentials: true });
                 const all_saved = saved_response.data.saved_recipes;
-                const id_arr = []
-                const db_id_arr = []
-                all_saved.forEach((item)=>{
-                    id_arr.push(item.id_from_api);
-                    db_id_arr.push(item.id);
-
-                })
+    
+                const id_arr = all_saved.map((item) => item.id_from_api);
+                const db_id_arr = all_saved.map((item) => item.id);
+    
                 console.log(id_arr);
-
+    
                 const saved_json = await Promise.all(
-                    id_arr.map((id, index)=>{
-                        const id_response =  axios.get(`/spoonacular_id_search/${id}/information`, {params : {apiKey: apiKey} , withCredentials:true});
-                        const info = id_response.data;
+                    id_arr.map(async (id, index) => {
+                        try {
+                            const id_response = await axios.get(
+                                `/spoonacular_id_search/${id}/information`,
+                                { params: { apiKey: apiKey }, withCredentials: true }
+                            );
+                            const info = id_response.data;
     
-                        return {
-                            id: db_id_arr[index],
-                            recipe_name: info.title,
-                            image: info.image,
-                            ingredients: info.extendedIngredients.map((item)=>({
-                                ingredient_name : item.name,
-                                amount : item.original
-                            }))
-    
-                        };
+                            return {
+                                id: db_id_arr[index],
+                                recipe_name: info.title,
+                                image: info.image,
+                                ingredients: info.extendedIngredients.map((item) => ({
+                                    ingredient_name: item.name,
+                                    amount: item.original,
+                                })),
+                            };
+                        } catch (error) {
+                            console.error(`Error fetching recipe ${id}:`, error);
+                            return null; 
+                        }
                     })
                 );
-               
-                setSaved(saved_json);
-
+    
+                setSaved(saved_json.filter((item) => item !== null));
+    
             } catch (error) {
                 console.log(error);
             } finally {
                 setGettingSaved(false);
             }
         };
-        getInfo(); 
-    }, [])
+    
+        getInfo();
+    }, []);
 
 
 
@@ -162,8 +167,11 @@ export function Recipes() {
 
     const handleRemoveSave = async (itemId) =>{
         try{
-            await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
-            setSaved(saved_recipes.filter((recipe) => recipe.id !== itemId));
+            if(window.confirm("Are you sure you want to remove this recipe from tour saved recipes?")){
+                await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
+                setSaved(saved.filter((recipe) => recipe.id !== itemId));
+            }
+
 
         } catch (error){
             console.log(error);
@@ -371,7 +379,7 @@ export function Recipes() {
                         <input
                             type="radio"
                             value="view"
-                            onChange={(e) => setMode(e.target.value)}
+                            onChange={(e) => {setMode(e.target.value); setTimeout(1500); window.location.reload();}}
                             checked={mode === "view"}
                         />
                     </label>
@@ -379,7 +387,7 @@ export function Recipes() {
                         <input
                             type="radio"
                             value="search"
-                            onChange={(e) => setMode(e.target.value)}
+                            onChange={(e) => {setMode(e.target.value)}}
                             checked={mode === "search"}
                         />
                     </label>
