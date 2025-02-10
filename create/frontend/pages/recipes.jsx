@@ -167,8 +167,11 @@ export function Recipes() {
 
     const handleRemoveSave = async (itemId) =>{
         try{
-            await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
-            setSaved(saved_recipes.filter((recipe) => recipe.id !== itemId));
+            if(window.confirm("Are you sure you want to remove this recipe from tour saved recipes?")){
+                await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
+                setSaved(saved.filter((recipe) => recipe.id !== itemId));
+            }
+
 
         } catch (error){
             console.log(error);
@@ -376,7 +379,7 @@ export function Recipes() {
                         <input
                             type="radio"
                             value="view"
-                            onChange={(e) => setMode(e.target.value)}
+                            onChange={(e) => {setMode(e.target.value); setTimeout(1500); window.location.reload();}}
                             checked={mode === "view"}
                         />
                     </label>
@@ -384,7 +387,7 @@ export function Recipes() {
                         <input
                             type="radio"
                             value="search"
-                            onChange={(e) => setMode(e.target.value)}
+                            onChange={(e) => {setMode(e.target.value)}}
                             checked={mode === "search"}
                         />
                     </label>
