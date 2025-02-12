@@ -49,6 +49,9 @@ export function Signin_Box({ setStatus }) {
         }
     };
 
+    const handleGoogle = async ()=>{
+        // google sign in here authentication will be done in the backend
+    }
 
     return (
         <div className="signincontainer">
