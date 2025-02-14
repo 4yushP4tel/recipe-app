@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
 from datetime import datetime, timedelta
+from google.oauth2 import id_token;
 
 
 KEY = os.getenv("SECRET_KEY")
@@ -319,6 +320,12 @@ def delete_recipe(recipe_id):
         "message": "recipe successfully removed from saved"
     }), 200
 
+
+# google routes
+
+@app.route("google_login", methods = ["POST"])
+def google_login():
+    pass
 
 
 if __name__ == "__main__":

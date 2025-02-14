@@ -241,10 +241,14 @@ body {
 }
 
 .method-buttons {
-    display: flex;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
+    padding: 2px;
+
 }
 
 .method-buttons button {
@@ -1075,4 +1079,9 @@ body {
     .view_section img {
         width: 100px;
     }
+}
+
+.google-logo{
+    width: 20px;
+    height: 20px;
 }

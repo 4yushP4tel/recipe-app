@@ -1,6 +1,8 @@
 import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import google from "../images/google.png";
 import axios from 'axios';
+import { useGoogleLogin } from "@react-oauth/google";
 
 export function Signin_Box({ setStatus }) {
     const [visible, setVisible] = useState(false);
@@ -48,10 +50,6 @@ export function Signin_Box({ setStatus }) {
             }
         }
     };
-
-    const handleGoogle = async ()=>{
-        // google sign in here authentication will be done in the backend
-    }
 
     return (
         <div className="signincontainer">
@@ -218,9 +216,14 @@ export function Create_Account({ setStatus }) {
 }
 
 export function Signup_Google_Box() {
+
+    const handleGoogle = async ()=>{
+        console.log("Google Login Request Starting");
+    }
+
     return (
         <div className="Google_container">
-            <button className='method-buttons'>Sign in with Google</button>
+            <button onClick={handleGoogle} className='method-buttons'><img src={google} alt="google" className='google-logo'/>Sign in with Google</button>
         </div>
     );
 }
