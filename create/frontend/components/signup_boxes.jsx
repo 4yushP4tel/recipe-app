@@ -217,8 +217,20 @@ export function Create_Account({ setStatus }) {
 
 export function Signup_Google_Box() {
 
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
     const handleGoogle = async ()=>{
         console.log("Google Login Request Starting");
+
+        try {
+            await axios.post("/api/google_login",
+                            {token : token},
+                            {withCredentials: true}
+            );
+
+        } catch(error){
+            console.log(error);
+        }
     }
 
     return (

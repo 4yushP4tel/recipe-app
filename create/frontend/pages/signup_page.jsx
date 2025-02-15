@@ -1,9 +1,8 @@
 import { Signin_Box, Create_Account, Signup_Google_Box, } from
     '../components/signup_boxes';
 import food_image from '../images/food.png'
-
-
 import { React, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 export function Signup({ setStatus }) {
 
@@ -13,7 +12,9 @@ export function Signup({ setStatus }) {
         <div className='signup_page'>
             <div className='header-container'>
                 <img src={food_image} alt="food_icon" />
-                <h1>What's 4 Diner</h1>
+                <Link to = {"/"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h1>What's 4 Diner</h1>
+                </Link>
             </div>
             <div className='signup_container'>
                 {curr_method === 'Sign_In' && <Signin_Box setStatus={setStatus} />}

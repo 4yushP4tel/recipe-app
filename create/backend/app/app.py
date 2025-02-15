@@ -326,6 +326,7 @@ def delete_recipe(recipe_id):
 @app.route("google_login", methods = ["POST"])
 def google_login():
     pass
+    # check if user exists using email. if not create user but keep passwork null
 
 
 if __name__ == "__main__":
