@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
 from datetime import datetime, timedelta
-from google.oauth2 import id_token;
+from google.auth import jwt
 
 
 KEY = os.getenv("SECRET_KEY")
@@ -257,7 +257,6 @@ class Recipes(db.Model):
     id_from_api = db.Column(db.Integer)
 
 
-
 @app.route("/recipes", methods = ['POST'])
 def save_recipes():
     data = request.get_json()
@@ -323,7 +322,10 @@ def delete_recipe(recipe_id):
 
 # google routes
 
-@app.route("google_login", methods = ["POST"])
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
+
+@app.route("/google_login", methods = ["POST"])
 def google_login():
     pass
     # check if user exists using email. if not create user but keep passwork null

@@ -44,7 +44,7 @@ export function App() {
                 <Routes>
                     <Route path='*' element={<Navigate to={"/"} replace/>} />
                     <Route path="/" element={status ? <HomepageSignedIn /> : <HomepageSignedOut />} />
-                    <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup setStatus={setStatus} />} />
+                    <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup status ={status} setStatus={setStatus} />} />
                     <Route path="/logout" element={<Logout setStatus={setStatus} />} />
                     <Route path="/homesignedin" element={status ? <HomepageSignedIn /> : <Navigate to="/" />} />
                     <Route path="/signup" element={status ? <Navigate to="/homesignedin" /> : <Signup />} />

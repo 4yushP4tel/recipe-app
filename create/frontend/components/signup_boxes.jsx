@@ -1,8 +1,9 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import google from "../images/google.png";
 import axios from 'axios';
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import {jwtDecode} from 'jwt-decode';
 
 export function Signin_Box({ setStatus }) {
     const [visible, setVisible] = useState(false);
@@ -215,27 +216,19 @@ export function Create_Account({ setStatus }) {
     );
 }
 
-export function Signup_Google_Box() {
+export function Signup_Google_Box( {status, setStatus}) {
 
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-    const handleGoogle = async ()=>{
-        console.log("Google Login Request Starting");
-
-        try {
-            await axios.post("/api/google_login",
-                            {token : token},
-                            {withCredentials: true}
-            );
-
-        } catch(error){
-            console.log(error);
-        }
-    }
+    const login = useGoogleLogin({
+        onSuccess : (response) => {return;},
+        onError: ()=> console.log('error'),
+        prompt : 'select_account',
+        flow: 'implicit',
+    });
+    
 
     return (
         <div className="Google_container">
-            <button onClick={handleGoogle} className='method-buttons'><img src={google} alt="google" className='google-logo'/>Sign in with Google</button>
+            <button onClick={login} className='method-buttons'><img src={google} alt="google" className='google-logo'/>Sign in with Google</button>
         </div>
     );
 }
