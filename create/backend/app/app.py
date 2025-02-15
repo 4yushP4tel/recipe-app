@@ -7,7 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
 from datetime import datetime, timedelta
-from google.auth import jwt
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 
 KEY = os.getenv("SECRET_KEY")
@@ -329,35 +330,10 @@ GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
 def google_login():
     response = request.get_json()
     token = response.get('token')
-    try:
-        id_info = jwt.decode(token, verify=False)
-        email = id_info['email']
-        name = id_info['name']
-        user = User.query.filter_by(email=email).first()
-        if user:
-            session['auth_status'] = True
-            session['user_id'] = user.user_id
-            session['user_name'] = user.user_name
-            session['email'] = user.email
-            return jsonify({"message": "Logged in successfully",
-                        "user_id": session['user_id'],
-                        "user_name": session['user_name'],
-                        "auth_status": session['auth_status']
-                        }), 200
-        else:
-            new_user = User(user_name= name, email=email, created_at = datetime.now())
-            db.session.add(new_user)
-            db.commit()
-            session['auth_status'] = True
-            return jsonify({
-                "message": "User created successfully",
-                "user_id": new_user.user_id,
-                "user_name": new_user.user_name,
-                "auth_status": True
-            }), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    response_seg = token.split(".")
+    return response_seg
+    
+   
     # check if user exists using email. if not create user but keep passwork null
 
 
