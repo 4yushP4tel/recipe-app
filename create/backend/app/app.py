@@ -48,7 +48,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(50), unique = True, nullable = False)
     email = db.Column(db.String(250), unique = True, nullable = False)
-    password_hash = db.Column(db.String(150), nullable = False)
+    password_hash = db.Column(db.String(150))
     created_at = db.Column(db.DateTime, default = datetime.now)
 
     def set_password(self, password):
@@ -327,7 +327,37 @@ GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
 
 @app.route("/google_login", methods = ["POST"])
 def google_login():
-    pass
+    response = request.get_json()
+    token = response.get('token')
+    try:
+        id_info = jwt.decode(token, verify=False)
+        email = id_info['email']
+        name = id_info['name']
+        user = User.query.filter_by(email=email).first()
+        if user:
+            session['auth_status'] = True
+            session['user_id'] = user.user_id
+            session['user_name'] = user.user_name
+            session['email'] = user.email
+            return jsonify({"message": "Logged in successfully",
+                        "user_id": session['user_id'],
+                        "user_name": session['user_name'],
+                        "auth_status": session['auth_status']
+                        }), 200
+        else:
+            new_user = User(user_name= name, email=email, created_at = datetime.now())
+            db.session.add(new_user)
+            db.commit()
+            session['auth_status'] = True
+            return jsonify({
+                "message": "User created successfully",
+                "user_id": new_user.user_id,
+                "user_name": new_user.user_name,
+                "auth_status": True
+            }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
     # check if user exists using email. if not create user but keep passwork null
 
 
