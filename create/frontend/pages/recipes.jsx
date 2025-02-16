@@ -13,7 +13,9 @@ export function Recipes() {
     const [loading, setLoading] = useState(false);
     const [gettingSaved, setGettingSaved] = useState(true);
     const [userId, setUserID] = useState(0);
-    const [saved, setSaved] = useState([])
+    const [saved, setSaved] = useState([]);
+
+    const youtube_link  = "https://www.youtube.com/results?search_query=" ;
 
     useEffect(() => {
         const getInfo = async () => {
@@ -216,7 +218,7 @@ export function Recipes() {
                                             );
                                         })}
                                     </td>
-                                    <td>🎥</td>
+                                    <td style={{fontSize:'20px'}}><a href={`https://www.youtube.com/results?search_query=${item.recipe_name}`} target="blank">🎥</a></td>
                                     <td><button onClick={()=> handleRemoveSave(item.id)}>Remove from Saved</button></td>
 
                                 </tr>
@@ -357,7 +359,7 @@ export function Recipes() {
                                             })}
                                         </ul>
                                     </td>
-                                    <td>🎥</td>
+                                    <td><a href={`https://www.youtube.com/results?search_query=${item.recipe_name}`} target="blank">🎥</a></td>
                                     <td><button onClick={()=>handleSave(item.id, item.recipe_name, index)}>Save Recipe</button></td>
                                 </tr>)
 

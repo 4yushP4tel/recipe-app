@@ -237,7 +237,7 @@ export function Signup_Google_Box({ setStatus }) {
 
 
     return (
-        <div className='method-buttons'>
+        <div className='method-buttons' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <GoogleLogin
                 onSuccess={(response) => {
                     console.log(response);

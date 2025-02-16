@@ -703,7 +703,6 @@ body {
     max-height: auto; 
     overflow: visible;
     transition: min-height 0.3s ease;
-
 }
 
 .search_section h3 {
@@ -803,18 +802,18 @@ body {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.search_results button:hover {
+.search_results button:hover .view{
     background-color: #45a049;
     transform: scale(1.1); 
 }
 
-.search_results td:nth-child(7) {
+.search_results td:nth-child(7) .view_section table td:nth-child(5){
     text-align: center;
     font-size: 20px;
     transition: transform 0.3s ease;
 }
 
-.search_results td:nth-child(7):hover {
+.search_results td:nth-child(7):hover .view_section table td:nth-child(5):hover{
     transform: scale(1.1); 
     cursor: pointer;
 }
@@ -823,7 +822,7 @@ body {
     margin-bottom: 5px;
 }
 
-.search_results td:nth-child(7) {
+.search_results td:nth-child(7) .view_section table td:nth-child(5) {
     text-align: center;
     font-size: 20px;
 }
@@ -1007,13 +1006,13 @@ body {
     transform: scale(1.1); 
 }
 
-.view_section td:nth-child(7) {
+.view_section td:nth-child(5) {
     text-align: center;
     font-size: 20px;
     transition: transform 0.3s ease;
 }
 
-.view_sectiontd:nth-child(7):hover {
+.view_sectiontd:nth-child(5):hover {
     transform: scale(1.1); 
     cursor: pointer;
 }
@@ -1022,7 +1021,7 @@ body {
     margin-bottom: 5px;
 }
 
-.view_section td:nth-child(7) {
+.view_section td:nth-child(5) {
     text-align: center;
     font-size: 20px;
 }
