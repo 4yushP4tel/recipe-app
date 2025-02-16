@@ -237,7 +237,7 @@ export function Signup_Google_Box({ setStatus }) {
 
 
     return (
-        <div className="Google_container">
+        <div className='method-buttons'>
             <GoogleLogin
                 onSuccess={(response) => {
                     console.log(response);
@@ -246,15 +246,6 @@ export function Signup_Google_Box({ setStatus }) {
                 }}
                 onError={() => console.log("failed")}
                 auto_select={true}
-                style = {
-                    {
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }
-                }
             />
         </div>
     );

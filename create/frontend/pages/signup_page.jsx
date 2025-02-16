@@ -19,12 +19,12 @@ export function Signup({ setStatus }) {
             <div className='signup_container'>
                 {curr_method === 'Sign_In' && <Signin_Box setStatus={setStatus} />}
                 {curr_method === 'Create_Account' && <Create_Account setStatus={setStatus} />}
-                <Signup_Google_Box setStatus={setStatus}/>
-
                 <div className='method-buttons'>
                     <button onClick={() => setCurr_method('Sign_In')}>Sign In</button>
                     <button onClick={() => setCurr_method('Create_Account')}>Create Account</button>
                 </div>
+                <Signup_Google_Box setStatus={setStatus}/>
+
 
             </div>
         </div>
