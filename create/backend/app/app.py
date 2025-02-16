@@ -7,6 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
 from datetime import datetime, timedelta
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 
 KEY = os.getenv("SECRET_KEY")
@@ -47,7 +49,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(50), unique = True, nullable = False)
     email = db.Column(db.String(250), unique = True, nullable = False)
-    password_hash = db.Column(db.String(150), nullable = False)
+    password_hash = db.Column(db.String(150))
     created_at = db.Column(db.DateTime, default = datetime.now)
 
     def set_password(self, password):
@@ -256,7 +258,6 @@ class Recipes(db.Model):
     id_from_api = db.Column(db.Integer)
 
 
-
 @app.route("/recipes", methods = ['POST'])
 def save_recipes():
     data = request.get_json()
@@ -319,6 +320,52 @@ def delete_recipe(recipe_id):
         "message": "recipe successfully removed from saved"
     }), 200
 
+
+# google routes
+
+GOOGLE_CLIENT_ID = os.getenv('VITE_GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
+
+@app.route("/google_login", methods = ["POST"])
+def google_login():
+    response = request.get_json()
+    token = response.get('token')
+    try:
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
+        email = id_info.get('email')
+        user_name = id_info.get('name')
+        user = User.query.filter_by(email=email, user_name = user_name).first()
+        if user:
+            session['auth_status'] = True
+            session['user_id'] = user.user_id
+            session['user_name'] = user.user_name
+            session['email'] = user.email
+            return jsonify({"message": "Logged in successfully",
+                            "user_id": session['user_id'],
+                            "user_name": session['user_name'],
+                            "email" : session['email'],
+                            "auth_status": session['auth_status']
+                            }), 200
+        else:
+            new_user = User(user_name=user_name, email=email, created_at = datetime.now())
+            db.session.add(new_user)
+            db.session.commit()
+            session['auth_status'] = True
+            session['user_id'] = new_user.user_id
+            session['user_name'] = new_user.user_name
+            session['email'] = new_user.email
+            return jsonify({"message": "User created successfully",
+                            "user_id": session['user_id'],
+                            "email" : session['email'],
+                            "user_name": session['user_name'],
+                            "auth_status": session['auth_status']
+                            }), 200
+    except Exception as e:
+        return jsonify({"error": str}), 400
+
+
+    
+   
 
 
 if __name__ == "__main__":

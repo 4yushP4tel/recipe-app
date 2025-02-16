@@ -13,6 +13,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server:{
+      headers:{
+        "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        "Cross-Origin-Embedder-Policy": "credentialless",
+      },
       proxy: {
         '/api': {
           target: 'http://127.0.0.1:5000',
