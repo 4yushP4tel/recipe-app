@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import google from "../images/google.png";
 import axios from 'axios';
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export function Signin_Box({ setStatus }) {
     const [visible, setVisible] = useState(false);
@@ -216,33 +216,46 @@ export function Create_Account({ setStatus }) {
     );
 }
 
-export function Signup_Google_Box( { setStatus}) {
+export function Signup_Google_Box({ setStatus }) {
 
     const navigate = useNavigate();
 
     const backend_auth = async (token) => {
-        console.log(token)
         try {
             const response = await axios.post("/api/google_login", { token: token }, { withCredentials: true });
-            if (response.status === 200) {
+            if (response.status === 200 && response.data.auth_status == true) {
                 setStatus(true);
+            } else{
+                alert("An error occurred. Please try again.");
             }
         } catch (error) {
             console.log('error');
+            alert("An error occurred. Please try again.");
         }
     }
 
-    const login = useGoogleLogin({
-        onSuccess : (response) => {backend_auth(response.access_token); navigate('/');},
-        onError: ()=> console.log('error'),
-        prompt : 'select_account',
-        flow: 'implicit',
-    });
-    
+
 
     return (
         <div className="Google_container">
-            <button onClick={login} className='method-buttons'><img src={google} alt="google" className='google-logo'/>Sign in with Google</button>
+            <GoogleLogin
+                onSuccess={(response) => {
+                    console.log(response);
+                    backend_auth(response.credential);
+                    navigate("/");
+                }}
+                onError={() => console.log("failed")}
+                auto_select={true}
+                style = {
+                    {
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }
+                }
+            />
         </div>
     );
 }

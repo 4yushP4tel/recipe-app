@@ -323,18 +323,49 @@ def delete_recipe(recipe_id):
 
 # google routes
 
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_ID = os.getenv('VITE_GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
 
 @app.route("/google_login", methods = ["POST"])
 def google_login():
     response = request.get_json()
     token = response.get('token')
-    response_seg = token.split(".")
-    return response_seg
+    try:
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
+        email = id_info.get('email')
+        user_name = id_info.get('name')
+        user = User.query.filter_by(email=email, user_name = user_name).first()
+        if user:
+            session['auth_status'] = True
+            session['user_id'] = user.user_id
+            session['user_name'] = user.user_name
+            session['email'] = user.email
+            return jsonify({"message": "Logged in successfully",
+                            "user_id": session['user_id'],
+                            "user_name": session['user_name'],
+                            "email" : session['email'],
+                            "auth_status": session['auth_status']
+                            }), 200
+        else:
+            new_user = User(user_name=user_name, email=email, created_at = datetime.now())
+            db.session.add(new_user)
+            db.session.commit()
+            session['auth_status'] = True
+            session['user_id'] = new_user.user_id
+            session['user_name'] = new_user.user_name
+            session['email'] = new_user.email
+            return jsonify({"message": "User created successfully",
+                            "user_id": session['user_id'],
+                            "email" : session['email'],
+                            "user_name": session['user_name'],
+                            "auth_status": session['auth_status']
+                            }), 200
+    except Exception as e:
+        return jsonify({"error": str}), 400
+
+
     
    
-    # check if user exists using email. if not create user but keep passwork null
 
 
 if __name__ == "__main__":
