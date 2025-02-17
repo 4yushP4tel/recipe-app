@@ -33,7 +33,7 @@ export function Recipes() {
                     id_arr.map(async (id, index) => {
                         try {
                             const id_response = await axios.get(
-                                `/spoonacular_id_search/${id}/information`,
+                                `https://api.spoonacular.com/recipes/${id}/information`,
                                 { params: { apiKey: apiKey }, withCredentials: true }
                             );
                             const info = id_response.data;
@@ -88,7 +88,7 @@ export function Recipes() {
             );
             const selectedString = selected_ingredient_arr.join(",")
 
-            const response = await axios.get('/spoonacular_ingredient_search', {
+            const response = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {
                 params: {
                     apiKey: apiKey,
                     ingredients: selectedString
