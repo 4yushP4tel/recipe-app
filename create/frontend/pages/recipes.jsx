@@ -135,7 +135,7 @@ export function Recipes() {
     const handleSave = async ( id, name, index) => {
 
         try {
-            await axios.post("/api/recipes", {
+            await axios.post("https://whats4dinner.onrender.com/recipes", {
                 "user_id" : userId,
                 "id_from_api": id,
                 "recipe_name": name,
