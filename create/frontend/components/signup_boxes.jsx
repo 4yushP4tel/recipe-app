@@ -24,7 +24,6 @@ export function Signin_Box({ setStatus }) {
         setError("");
 
         try {
-            console.log("Login Request Starting")
             const response = await axios.post("/api/login", {
                 email: formData.email,
                 password: formData.password
@@ -32,7 +31,6 @@ export function Signin_Box({ setStatus }) {
                 { withCredentials: true }
             );
 
-            console.log(`Before 200 status, Status: ${response.status}`);
 
             if (response.status === 200) {
                 const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
@@ -145,7 +143,6 @@ export function Create_Account({ setStatus }) {
                 setError(err.response.data.error);
             } else {
                 setError("An error occurred. Please try again.");
-                console.log('error occured when trying to submit')
             }
         }
     };
@@ -240,7 +237,6 @@ export function Signup_Google_Box({ setStatus }) {
         <div className='method-buttons' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <GoogleLogin
                 onSuccess={(response) => {
-                    console.log(response);
                     backend_auth(response.credential);
                     navigate("/");
                 }}

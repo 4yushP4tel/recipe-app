@@ -324,7 +324,6 @@ def delete_recipe(recipe_id):
 # google routes
 
 GOOGLE_CLIENT_ID = os.getenv('VITE_GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_KEY')
 
 @app.route("/google_login", methods = ["POST"])
 def google_login():

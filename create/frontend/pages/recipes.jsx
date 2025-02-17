@@ -15,8 +15,6 @@ export function Recipes() {
     const [userId, setUserID] = useState(0);
     const [saved, setSaved] = useState([]);
 
-    const youtube_link  = "https://www.youtube.com/results?search_query=" ;
-
     useEffect(() => {
         const getInfo = async () => {
             try {
@@ -30,9 +28,7 @@ export function Recipes() {
     
                 const id_arr = all_saved.map((item) => item.id_from_api);
                 const db_id_arr = all_saved.map((item) => item.id);
-    
-                console.log(id_arr);
-    
+        
                 const saved_json = await Promise.all(
                     id_arr.map(async (id, index) => {
                         try {
@@ -91,7 +87,6 @@ export function Recipes() {
                 (ingredient) => (ingredient.label).toLowerCase()
             );
             const selectedString = selected_ingredient_arr.join(",")
-            console.log(selectedString)
 
             const response = await axios.get('/spoonacular_ingredient_search', {
                 params: {
@@ -136,7 +131,6 @@ export function Recipes() {
 
             });
 
-            console.log(recipe_search_results);
             setRecipe_search(recipe_search_results);
 
         } catch (e) {

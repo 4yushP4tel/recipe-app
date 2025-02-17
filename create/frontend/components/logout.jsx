@@ -12,7 +12,6 @@ export const Logout = ({ setStatus }) => {
             const authStatus = authResponse.data.auth_status;
             setStatus(authStatus);
             navigate("/");
-            console.log(authStatus)
         } catch (error) {
             console.log("Error logging out: ", error);
         }
