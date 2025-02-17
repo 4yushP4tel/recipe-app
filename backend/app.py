@@ -14,7 +14,7 @@ from google.auth.transport import requests
 KEY = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
-CORS(app, origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+CORS(app, origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 load_dotenv()
 
 app.config['SESSION_TYPE'] = 'filesystem' 
@@ -59,7 +59,7 @@ class User(db.Model):
         return bcrypt.check_password_hash(self.password_hash, password)
     
 @app.route('/check_auth', methods=['GET'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def check_auth():
     print(f"Session in Check:{dict(session)}")
     if 'user_id' in session:
@@ -76,7 +76,7 @@ def check_auth():
     return jsonify({'auth_status' : False, 'error': 'Session not found'}), 200
 
 @app.route('/create_user', methods=['POST'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def create_user():
     data = request.get_json()
     user_name = data.get('user_name')
@@ -121,7 +121,7 @@ def create_user():
 
 
 @app.route('/login', methods=['POST'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -161,7 +161,7 @@ class Ingredient(db.Model):
     added_at = db.Column(db.DateTime, default = datetime.now)
 
 @app.route('/pantry', methods=['POST'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def add_ingredient():
     if "user_id" not in session:
         return jsonify({"error": "User not logged in"}), 401
@@ -186,7 +186,7 @@ def add_ingredient():
         return jsonify({"error": str(e)}), 500
     
 @app.route('/pantry', methods=['GET'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def get_ingredients():
     if "user_id" not in session:
         return jsonify({"error": "User not logged in"}), 401
@@ -201,7 +201,7 @@ def get_ingredients():
                     }), 200
 
 @app.route('/pantry/<int:ingredient_id>', methods=['DELETE'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def delete_ingredient(ingredient_id):
     if "user_id" not in session:
         return jsonify({"error": "User not logged in"}), 401
@@ -228,7 +228,7 @@ def get_openai_response(prompt, chat_history):
     return completion.choices[0].message.content
 
 @app.route('/chefai', methods=['POST'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def get_response():
     data = request.get_json()
     prompt = data.get('prompt')
@@ -266,7 +266,7 @@ class Recipes(db.Model):
 
 
 @app.route("/recipes", methods = ['POST'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def save_recipes():
     data = request.get_json()
     user_id = data.get('user_id')
@@ -293,7 +293,7 @@ def save_recipes():
 
 
 @app.route("/recipes", methods=['GET'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def view_recipes():
     if 'user_id' not in session:
         return jsonify({
@@ -315,7 +315,7 @@ def view_recipes():
 
 
 @app.route("/recipes/<int:recipe_id>", methods=['DELETE'])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def delete_recipe(recipe_id):
     user_id = session['user_id']
     recipe = Recipes.query.filter_by(id=recipe_id, user_id=user_id).first()
@@ -336,7 +336,7 @@ def delete_recipe(recipe_id):
 GOOGLE_CLIENT_ID = os.getenv('VITE_GOOGLE_CLIENT_ID')
 
 @app.route("/google_login", methods = ["POST"])
-@cross_origin(origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
+@cross_origin(origins=["https://whats4dinner.vercel.app/"], supports_credentials=True)
 def google_login():
     response = request.get_json()
     token = response.get('token')
@@ -372,11 +372,6 @@ def google_login():
                             }), 200
     except Exception as e:
         return jsonify({"error": str}), 400
-
-
-    
-   
-
 
 if __name__ == "__main__":
     app.run(debug=True)
