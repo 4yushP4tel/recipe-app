@@ -7,8 +7,8 @@ export const Logout = ({ setStatus }) => {
 
     const handleLogout = async () => {
         try {
-            await axios.post("/api/logout", { withCredentials: true });
-            const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+            await axios.post("https://whats4dinner.onrender.com/logout", { withCredentials: true });
+            const authResponse = await axios.get("https://whats4dinner.onrender.com/check_auth", { withCredentials: true });
             const authStatus = authResponse.data.auth_status;
             setStatus(authStatus);
             navigate("/");

@@ -10,7 +10,7 @@ export function ChefAI() {
     useEffect(() => {
         const getuserName = async () => {
             try {
-                const response = await axios.get("/api/check_auth",
+                const response = await axios.get("https://whats4dinner.onrender.com/check_auth",
                     { withCredentials: true });
                 setUserName(response.data.user_name);
             } catch (error) {
@@ -28,7 +28,7 @@ export function ChefAI() {
             setInput("");
             setIsLoading(true);
             try {
-                const response = await axios.post("/api/chefai",
+                const response = await axios.post("https://whats4dinner.onrender.com/chefai",
                     {
                         prompt: input,
                         user_name: user_name,

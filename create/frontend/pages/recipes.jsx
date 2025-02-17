@@ -18,12 +18,12 @@ export function Recipes() {
     useEffect(() => {
         const getInfo = async () => {
             try {
-                const response = await axios.get("/api/pantry", { withCredentials: true });
+                const response = await axios.get("https://whats4dinner.onrender.com/pantry", { withCredentials: true });
                 setIngredients(response.data.ingredients);
                 setUserID(response.data.user_id);
     
                 setGettingSaved(true);
-                const saved_response = await axios.get("/api/recipes", { withCredentials: true });
+                const saved_response = await axios.get("https://whats4dinner.onrender.com/recipes", { withCredentials: true });
                 const all_saved = saved_response.data.saved_recipes;
     
                 const id_arr = all_saved.map((item) => item.id_from_api);
@@ -164,7 +164,7 @@ export function Recipes() {
     const handleRemoveSave = async (itemId) =>{
         try{
             if(window.confirm("Are you sure you want to remove this recipe from tour saved recipes?")){
-                await axios.delete(`/api/recipes/${itemId}`, {withCredentials: true});
+                await axios.delete(`https://whats4dinner.onrender.com/recipes/${itemId}`, {withCredentials: true});
                 setSaved(saved.filter((recipe) => recipe.id !== itemId));
             }
 

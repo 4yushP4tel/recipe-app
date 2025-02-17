@@ -12,7 +12,7 @@ export function Pantry() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await axios.get("/api/pantry",
+                const response = await axios.get("https://whats4dinner.onrender.com/pantry",
                     { withCredentials: true });
 
                 setUserName(response.data.user_name);
@@ -36,7 +36,7 @@ export function Pantry() {
                 return;
             }
             try {
-                const response = await axios.post("/api/pantry", {
+                const response = await axios.post("https://whats4dinner.onrender.com/pantry", {
                     ingredient_name: ingredient.trim(),
                     user_id: userId,
                 },

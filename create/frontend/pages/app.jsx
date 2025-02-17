@@ -21,7 +21,7 @@ export function App() {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const response = await axios.get('/api/check_auth', { withCredentials: true });
+                const response = await axios.get('https://whats4dinner.onrender.com/check_auth', { withCredentials: true });
                 setStatus(response.data.auth_status);
             } catch (error) {
                 console.error('Error checking authentication status:', error);
