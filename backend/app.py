@@ -256,6 +256,8 @@ def get_response():
 
 #recipes routes
 
+SPOONACULAR_API_KEY = os.getenv('SPOONACULAR_API_KEY')
+
 class Recipes(db.Model):
     __tablename__ = db_table_name3
     id = db.Column(db.Integer, primary_key=True)
@@ -263,6 +265,24 @@ class Recipes(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(f"{db_table_name1}.user_id"), nullable=False)
     added_at = db.Column(db.DateTime, default = datetime.now)
     id_from_api = db.Column(db.Integer)
+
+@app.route("/spoonacular_search", methods=['POST'])
+@cross_origin(origins=["https://whats4dinner.vercel.app"], supports_credentials=True)
+def spoonacular_search():
+    data = request.get_json()
+    ingredients = data.get('ingredients')
+    url = f"https://api.spoonacular.com/recipes/findByIngredients?apiKey={SPOONACULAR_API_KEY}&ingredients={ingredients}&number=5"
+    response = requests.get(url)
+    return response.json()
+
+@app.route("/id_spoonacular_search", methods=['POST'])
+@cross_origin(origins=["https://whats4dinner.vercel.app"], supports_credentials=True)
+def id_spoonacular_search():
+    data = request.get_json()
+    id = data.get('id')
+    url = f'https://api.spoonacular.com/recipes/{id}/information?apiKey={SPOONACULAR_API_KEY}&includeNutrition=false'
+    response = requests.get(url)
+    return response.json()
 
 
 @app.route("/recipes", methods = ['POST'])

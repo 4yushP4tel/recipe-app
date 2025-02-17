@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 
-const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
 export function Recipes() {
     const [mode, setMode] = useState("view");
@@ -32,9 +31,9 @@ export function Recipes() {
                 const saved_json = await Promise.all(
                     id_arr.map(async (id, index) => {
                         try {
-                            const id_response = await axios.get(
-                                `https://api.spoonacular.com/recipes/${id}/information`,
-                                { params: { apiKey: apiKey }, withCredentials: true }
+                            const id_response = await axios.post(
+                                `https://whats4dinner.onrender.com/id_spoonacular_search`,
+                                { params: { id: id }, withCredentials: true }
                             );
                             const info = id_response.data;
     
@@ -88,13 +87,7 @@ export function Recipes() {
             );
             const selectedString = selected_ingredient_arr.join(",")
 
-            const response = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {
-                params: {
-                    apiKey: apiKey,
-                    ingredients: selectedString
-                }
-            },
-                { withCredentials: true });
+            const response = await axios.post('https://whats4dinner.onrender.com/spoonacular_search', {ingredients : selectedString}, {withCredentials:true});
 
             const recipe_search_results = [];
 
