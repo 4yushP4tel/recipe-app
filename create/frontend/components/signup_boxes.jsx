@@ -24,7 +24,7 @@ export function Signin_Box({ setStatus }) {
         setError("");
 
         try {
-            const response = await axios.post("/api/login", {
+            const response = await axios.post("https://whats4dinner.onrender.com/login", {
                 email: formData.email,
                 password: formData.password
             },
@@ -33,7 +33,7 @@ export function Signin_Box({ setStatus }) {
 
 
             if (response.status === 200) {
-                const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+                const authResponse = await axios.get("https://whats4dinner.onrender.com/check_auth", { withCredentials: true });
                 const authStatus = authResponse.data.auth_status;
                 setStatus(authStatus);
                 navigate("/");
@@ -122,7 +122,7 @@ export function Create_Account({ setStatus }) {
         }
 
         try {
-            const response = await axios.post("/api/create_user", {
+            const response = await axios.post("https://whats4dinner.onrender.com/create_user", {
                 user_name: formData.user_name,
                 email: formData.email,
                 password: formData.password,
@@ -132,7 +132,7 @@ export function Create_Account({ setStatus }) {
             if (response.status === 201) {
                 setSuccess(response.data.message);
                 setFormData({ user_name: "", email: "", password: "", confirm_password: "" });
-                const authResponse = await axios.get("/api/check_auth", { withCredentials: true });
+                const authResponse = await axios.get("https://whats4dinner.onrender.com/check_auth", { withCredentials: true });
                 const authStatus = authResponse.data.auth_status;
                 setStatus(authStatus);
                 navigate("/");
@@ -219,7 +219,7 @@ export function Signup_Google_Box({ setStatus }) {
 
     const backend_auth = async (token) => {
         try {
-            const response = await axios.post("/api/google_login", { token: token }, { withCredentials: true });
+            const response = await axios.post("https://whats4dinner.onrender.com/google_login", { token: token }, { withCredentials: true });
             if (response.status === 200 && response.data.auth_status == true) {
                 setStatus(true);
             } else{
