@@ -1,4 +1,5 @@
 import os
+import requests as rq
 from openai import OpenAI
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, session
@@ -272,7 +273,7 @@ def spoonacular_search():
     data = request.get_json()
     ingredients = data.get('ingredients')
     url = f"https://api.spoonacular.com/recipes/findByIngredients?apiKey={SPOONACULAR_API_KEY}&ingredients={ingredients}&number=5"
-    response = requests.get(url)
+    response = rq.get(url)
     return response.json()
 
 @app.route("/id_spoonacular_search", methods=['POST'])
@@ -281,7 +282,7 @@ def id_spoonacular_search():
     data = request.get_json()
     id = data.get('id')
     url = f'https://api.spoonacular.com/recipes/{id}/information?apiKey={SPOONACULAR_API_KEY}&includeNutrition=false'
-    response = requests.get(url)
+    response = rq.get(url)
     return response.json()
 
 
