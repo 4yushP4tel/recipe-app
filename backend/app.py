@@ -14,7 +14,7 @@ from google.auth.transport import requests
 KEY = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
-CORS(app, origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app/"], supports_credentials=True)
+CORS(app, origins=["https://whats4dinner-efynx7hbe-ayush-patels-projects-3dc2ef74.vercel.app"], supports_credentials=True)
 load_dotenv()
 
 app.config['SESSION_TYPE'] = 'filesystem' 
