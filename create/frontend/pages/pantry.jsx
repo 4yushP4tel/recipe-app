@@ -95,7 +95,7 @@ export function Pantry() {
 
     return (
         <div className="pantry_page">
-            <div className="top_message">
+            <div className="top_message_pantry">
                 <h2>What's in my pantry?</h2>
                 <p>Keep track of the ingredients in your pantry and fridge</p>
             </div>

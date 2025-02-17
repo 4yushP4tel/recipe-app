@@ -335,6 +335,7 @@ body {
     align-items: center;
     text-align: center;
     height: 100vh;
+    padding-top: 20px;
 }
 
 .signedin_container button{
@@ -385,17 +386,38 @@ body {
     object-fit: cover;
 }
 
-/* .pantry_page {
-    padding: 10px;
-    max-width: 1200px;
-    margin: 0 auto;
-} */
-
-
 .pantry_container {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+}
+
+.pantry_page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 800px;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0 auto;
+    padding-bottom: 150px;
+}
+
+.top_message_pantry {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 150px;
+    color: #333;
+    top: 0;
+    position: sticky;
+}
+
+.top_message_pantry h2{
+    font-size: 2rem;
+    color: #202334;
+    margin-bottom: 5px;
+    position: sticky;
 }
 
 .form_container {
@@ -476,7 +498,7 @@ body {
     background-color: #ff1a1a;
 }
 
-.chefai_page .pantry_page{
+.chefai_page{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -487,8 +509,6 @@ body {
     overflow: hidden;
     margin: 0 auto;
 }
-
-
 
 .top_message {
     text-align: center;
