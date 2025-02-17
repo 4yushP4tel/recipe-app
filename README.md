@@ -17,3 +17,12 @@ I fixed by using a proxy for the url that I will be accessing (spoonacular api) 
 the vite.config.js file. You can find YouTube videos directly from the app now.
 
 Added Oauth to allow users to sign in with their Google account.
+
+Hosted the frontend using Vercel.
+
+Hosted the backend and database using Render.
+
+## Issues during deployment and how they were fixed:
+- Was not able to properly build and run the backend: Had to us gunicorn instead of flask run.
+- Spoonacular API ran into some CORS issues: Had to move requests to the backend,
+- Google Oauth was not working once deployed: Had to allow the deployed URL to work with my clientID.
