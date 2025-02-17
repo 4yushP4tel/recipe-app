@@ -13,7 +13,7 @@ export function Signup({ setStatus }) {
             <div className='header-container'>
                 <img src={food_image} alt="food_icon" />
                 <Link to = {"/"} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h1>What's 4 Diner</h1>
+                    <h1>What's 4 Dinner</h1>
                 </Link>
             </div>
             <div className='signup_container'>

@@ -17,7 +17,7 @@ export function AutoCarousel() {
                     {images.map((image, index) => {
                         return <img key={index} src={image} alt="food"
                             style={{
-                                height: '200px',
+                                maxHeight: '200px',
                                 width: 'auto',
                                 padding: '20px 50px'
 

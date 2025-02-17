@@ -318,7 +318,6 @@ body {
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.1);
 }
 
-
 .chosen_page{
     padding-top: 30px;
     display: flex;
@@ -386,24 +385,12 @@ body {
     object-fit: cover;
 }
 
-.pantry_page {
+/* .pantry_page {
     padding: 10px;
     max-width: 1200px;
     margin: 0 auto;
-}
+} */
 
-.top_message {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.top_message h2 {
-    color: #333;
-}
-
-.top_message p {
-    color: #666;
-}
 
 .pantry_container {
     display: flex;
@@ -489,7 +476,7 @@ body {
     background-color: #ff1a1a;
 }
 
-.chefai_page {
+.chefai_page .pantry_page{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -500,6 +487,8 @@ body {
     overflow: hidden;
     margin: 0 auto;
 }
+
+
 
 .top_message {
     text-align: center;
@@ -514,11 +503,14 @@ body {
     font-size: 2rem;
     color: #202334;
     margin-bottom: 5px;
+    position: sticky;
 }
 
 .top_message p {
     font-size: 1.1rem;
     color: #666;
+    position: sticky;
+
 }
 
 .chat_container {
@@ -652,10 +644,6 @@ body {
 
 }
 
-.top_message {
-    width: 100%;
-    text-align: center;
-}
 
 .mode_buttons {
     display: flex;
@@ -1053,7 +1041,32 @@ body {
     }
 }
 
-.google-logo{
-    width: 20px;
-    height: 20px;
+.footer {
+    width: 90%;
+    margin: auto;
+    display: flex;         
+    align-items: center;  
+    justify-content: space-between; 
+    border-top: 1px solid #ddd; 
 }
+
+.footer .logo img {
+    height: 50px; 
+    transition: transform 0.3s ease;
+
+}
+
+.footer .message {
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer .contact img {
+    height: 70px; 
+    transition: transform 0.3s ease;
+}
+
+.footer .contact img:hover {
+    transform: scale(1.1);
+}
+

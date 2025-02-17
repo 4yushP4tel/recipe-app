@@ -9,6 +9,7 @@ import { Recipes } from './recipes';
 import { Logout } from '../components/logout';
 import '../style/main.css';
 import axios from 'axios'
+import { Footer } from '../components/footer';
 
 axios.defaults.withCredentials = true;
 const NotFound = () => <h1>404 - Page Not Found</h1>;
@@ -54,6 +55,7 @@ export function App() {
                 </Routes>
 
             </div>
+            <Footer/>
 
         </Router>
     );
