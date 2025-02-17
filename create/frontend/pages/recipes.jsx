@@ -368,7 +368,7 @@ export function Recipes() {
                         <input
                             type="radio"
                             value="view"
-                            onChange={(e) => {setMode(e.target.value); setTimeout(1500); window.location.reload();}}
+                            onChange={(e) => {setMode(e.target.value)}}
                             checked={mode === "view"}
                         />
                     </label>
